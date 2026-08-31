@@ -419,7 +419,7 @@ JS syntax OK
             Wybierz najbliższą opcję
             <select id="prefermentPreset"></select>
           </label>
-          <p class="calculated-note small"><strong>Co oznacza „zakwas 100%”?</strong> To zakwas prowadzony przy równych wagach mąki i wody. Na przykład 50 g mąki + 50 g wody daje 100 g zakwasu. <strong>Levain</strong> to przygotowana porcja aktywnego zaczynu, często łagodniejszego i zbudowanego na zakwasie pszennym. W obu przypadkach kalkulator rozpisze osobno mąkę i wodę oraz pokaże, ile zostaje do ciasta właściwego.</p>
+          <p class="calculated-note small"><strong>Jak dobierane są proporcje?</strong> Dla zwykłego chleba kalkulator zaczyna od około 20–25% mąki przeznaczonej do fermentacji w zakwasie/levainie. Pozostała mąka i woda trafiają do ciasta właściwego. Wszystkie składniki z zakwasu lub levainu są wliczone w całkowitą ilość mąki i wody — nie dodajesz ich drugi raz. „Zakwas 100%” oznacza tylko równe wagi mąki i wody, np. 50 g + 50 g. <strong>Levain mieszany</strong> może być zbudowany z mąki pszennej i żytniej; kalkulator rozpisuje dokładny podział.</p>
           <details class="advanced">
             <summary>Ustawienia dla osób, które znają zaczyny</summary>
             <div class="preferment-mix">
@@ -549,7 +549,7 @@ JS syntax OK
     };
 
     const flourPresets = {
-      everyday: { label: "uniwersalnie: pszenna + trochę żytniej", values: { flourWhite: 70, flourWhole: 0, flourRyeLight: 30, flourRyeWhole: 0, flourSpelt: 0 } },
+      everyday: { label: "uniwersalnie: 80% pszennej + 20% żytniej", values: { flourWhite: 80, flourWhole: 0, flourRyeLight: 20, flourRyeWhole: 0, flourSpelt: 0 } },
       white: { label: "głównie pszenna jasna", values: { flourWhite: 100, flourWhole: 0, flourRyeLight: 0, flourRyeWhole: 0, flourSpelt: 0 } },
       wheatWhole: { label: "pszenna jasna + razowa", values: { flourWhite: 60, flourWhole: 40, flourRyeLight: 0, flourRyeWhole: 0, flourSpelt: 0 } },
       rye: { label: "bardziej żytni", values: { flourWhite: 30, flourWhole: 0, flourRyeLight: 70, flourRyeWhole: 0, flourSpelt: 0 } },
