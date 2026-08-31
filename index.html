@@ -273,6 +273,11 @@ JS syntax OK
       font-size: .92rem;
     }
 
+    .ingredient-list { display: grid; gap: 8px; }
+    .ingredient-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
+    .ingredient-line small { grid-column: 1 / -1; color: var(--muted); font-size: .78rem; }
+    .ingredient-line strong { font-weight: 650; }
+
     .callout {
       border-left: 4px solid var(--accent);
       background: #fff8ed;
@@ -457,13 +462,9 @@ JS syntax OK
         </div>
 
         <div class="section">
-          <h2>Fazy i składniki</h2>
-          <table>
-            <thead>
-              <tr><th>Faza</th><th>Składnik</th><th>Ilość</th></tr>
-            </thead>
-            <tbody id="ingredients"></tbody>
-          </table>
+          <h2>Lista składników</h2>
+          <p class="note">To są wszystkie ilości potrzebne do wykonania tego chleba. Składniki użyte w zaczynie są już odjęte od ilości podanych przy cieście właściwym.</p>
+          <div class="ingredient-list" id="ingredients"></div>
         </div>
 
         <div class="section">
@@ -767,7 +768,7 @@ JS syntax OK
       phaseRows.push(["3. Podsumowanie", "mąka razem", `${grams(flour)} (${flourDescription})`]);
       phaseRows.push(["3. Podsumowanie", "woda razem", grams(totalWater)]);
       phaseRows.push(["3. Podsumowanie", "zakwas lub zaczyn razem", grams(preferment.flourTotal + preferment.waterTotal)]);
-      document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
+      document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<div class="ingredient-line"><strong>${row[1]}</strong><span>${row[2]}</span><small>${row[0]}</small></div>`).join("");
       document.getElementById("starterSteps").innerHTML = starterInstructions(preferment, mix, flour);
 
       document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
