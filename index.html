@@ -708,7 +708,7 @@ JS syntax OK
         const addedWater = row.yeast ? row.water : Math.max(0, row.water - seed / 2);
         const flourParts = mix.active.map(item => `${grams(addedFlour * item.share)} ${item.label}`).join(" + ") || `${grams(addedFlour)} wybranej mąki`;
         if (row.yeast) {
-          steps.push(`<p><strong>${row.label} — przygotuj cały zaczyn (${grams(total)}):</strong><br>Odważ ${grams(row.flour)} ${flourDescription} oraz ${grams(row.water)} wody. Dodaj drożdże w ilości podanej w tabeli „Fazy i składniki”. Wymieszaj i zostaw do dojrzenia.</p>`);
+          steps.push(`<p><strong>${row.label} — przygotuj cały zaczyn (${grams(total)}):</strong><br>Odważ dokładnie <strong>${flourParts}</strong>. Dodaj <strong>${grams(row.water)} wody</strong> oraz drożdże w ilości podanej w tabeli. Wymieszaj i zostaw do dojrzenia.</p>`);
         } else {
           steps.push(`<p><strong>${row.label} — przygotuj jeden zaczyn (${grams(total)}):</strong><br>1. Odważ <strong>${grams(seed)} aktywnego zakwasu bazowego</strong> (takiego, który po dokarmieniu rośnie i pachnie świeżo).<br>2. Dodaj dokładnie: <strong>${flourParts}</strong>.<br>3. Dodaj <strong>${grams(addedWater)} wody</strong>.<br>4. Wymieszaj. To razem da około <strong>${grams(total)} gotowego levainu/zaczynu</strong>.<br>5. Zostaw w temperaturze pokojowej do wyraźnego wyrośnięcia. Dopiero wtedy dodaj całość do ciasta właściwego.</p>`);
         }
@@ -788,8 +788,9 @@ JS syntax OK
       const phaseRows = [];
       preferment.active.forEach((row, index) => {
         const phase = `${index + 1}. ${row.label}`;
-        phaseRows.push([phase, row.yeast ? "mąka do zaczynu" : "dodaj mąkę", grams(row.flour)]);
-        phaseRows.push([phase, row.yeast ? "woda do zaczynu" : "dodaj wodę", grams(row.water)]);
+        const prefermentFlourDescription = mix.active.map(item => `${grams(row.flour * item.share)} ${item.label}`).join(" + ") || `${grams(row.flour)} wybranej mąki`;
+        phaseRows.push([phase, row.yeast ? "mąka do zaczynu" : "mąka do levainu", prefermentFlourDescription]);
+        phaseRows.push([phase, row.yeast ? "woda do zaczynu" : "woda do levainu", grams(row.water)]);
         if (row.yeast) phaseRows.push([phase, "drożdże", yeastDoseShort(row.flour, room)]);
       });
       if (!preferment.active.length) {
