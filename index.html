@@ -768,7 +768,12 @@ JS syntax OK
       phaseRows.push(["3. Podsumowanie", "mąka razem", `${grams(flour)} (${flourDescription})`]);
       phaseRows.push(["3. Podsumowanie", "woda razem", grams(totalWater)]);
       phaseRows.push(["3. Podsumowanie", "zakwas lub zaczyn razem", grams(preferment.flourTotal + preferment.waterTotal)]);
-      document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<div class="ingredient-line"><strong>${row[1]}</strong><span>${row[2]}</span><small>${row[0]}</small></div>`).join("");
+      let lastPhase = "";
+      document.getElementById("ingredients").innerHTML = phaseRows.map(row => {
+        const heading = row[0] !== lastPhase ? `<h3>${row[0]}</h3>` : "";
+        lastPhase = row[0];
+        return `${heading}<div class="ingredient-line"><strong>${row[1]}</strong><span>${row[2]}</span></div>`;
+      }).join("");
       document.getElementById("starterSteps").innerHTML = starterInstructions(preferment, mix, flour);
 
       document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
