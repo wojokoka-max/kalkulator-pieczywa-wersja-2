@@ -659,10 +659,11 @@ JS syntax OK
         const seed = row.yeast ? 0 : Math.max(5, Math.round(total * 0.1));
         const addedFlour = row.yeast ? row.flour : Math.max(0, row.flour - seed / 2);
         const addedWater = row.yeast ? row.water : Math.max(0, row.water - seed / 2);
+        const flourParts = mix.active.map(item => `${grams(addedFlour * item.share)} ${item.label}`).join(" + ") || `${grams(addedFlour)} wybranej mąki`;
         if (row.yeast) {
           steps.push(`<p><strong>${row.label} — przygotuj cały zaczyn (${grams(total)}):</strong><br>Odważ ${grams(row.flour)} ${flourDescription} oraz ${grams(row.water)} wody. Dodaj drożdże w ilości podanej w tabeli „Fazy i składniki”. Wymieszaj i zostaw do dojrzenia.</p>`);
         } else {
-          steps.push(`<p><strong>${row.label} — przygotuj jeden zaczyn (${grams(total)}):</strong><br>1. Odważ <strong>${grams(seed)} aktywnego zakwasu bazowego</strong> (takiego, który po dokarmieniu rośnie i pachnie świeżo).<br>2. Dodaj <strong>${grams(addedFlour)} ${flourDescription}</strong> oraz <strong>${grams(addedWater)} wody</strong>.<br>3. Wymieszaj. To razem da około <strong>${grams(total)} gotowego levainu/zaczynu</strong>.<br>4. Zostaw w temperaturze pokojowej do wyraźnego wyrośnięcia. Dopiero wtedy dodaj całość do ciasta właściwego.</p>`);
+          steps.push(`<p><strong>${row.label} — przygotuj jeden zaczyn (${grams(total)}):</strong><br>1. Odważ <strong>${grams(seed)} aktywnego zakwasu bazowego</strong> (takiego, który po dokarmieniu rośnie i pachnie świeżo).<br>2. Dodaj dokładnie: <strong>${flourParts}</strong>.<br>3. Dodaj <strong>${grams(addedWater)} wody</strong>.<br>4. Wymieszaj. To razem da około <strong>${grams(total)} gotowego levainu/zaczynu</strong>.<br>5. Zostaw w temperaturze pokojowej do wyraźnego wyrośnięcia. Dopiero wtedy dodaj całość do ciasta właściwego.</p>`);
         }
       });
       const readiness = preferment.active.map(row => {
@@ -736,6 +737,7 @@ JS syntax OK
       document.getElementById("timeTotal").textContent = hours(total);
 
       const flourDescription = mix.active.map(item => `${item.label}: ${grams(flour * item.share)}`).join(", ") || "wpisz udział mąk";
+      const doughFlourDescription = mix.active.map(item => `${grams(finalFlour * item.share)} ${item.label}`).join(" + ") || `${grams(finalFlour)} wybranej mąki`;
       const phaseRows = [];
       preferment.active.forEach((row, index) => {
         const phase = `${index + 1}. ${row.label}`;
@@ -746,7 +748,7 @@ JS syntax OK
       if (!preferment.active.length) {
         phaseRows.push(["1. Zaczyn", "brak", "0 g"]);
       }
-      phaseRows.push(["2. Ciasto właściwe", "mąka", grams(finalFlour)]);
+      phaseRows.push(["2. Ciasto właściwe", "mąka — dokładny podział", doughFlourDescription]);
       phaseRows.push(["2. Ciasto właściwe", "woda", grams(finalWater)]);
       phaseRows.push(["2. Ciasto właściwe", "sól", grams(salt)]);
       phaseRows.push(["2. Ciasto właściwe", "tłuszcz/cukier/jajka razem", grams(enrichGrams)]);
