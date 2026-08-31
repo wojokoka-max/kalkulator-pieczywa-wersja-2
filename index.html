@@ -283,6 +283,8 @@ JS syntax OK
     .workflow-nav button:disabled { opacity:.45; cursor:not-allowed; }
     .workflow-hidden { display:none !important; }
     .workflow-controls { display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
+    .layout.workflow-results { grid-template-columns: minmax(0, 1fr); }
+    .layout.workflow-results .results { max-width: 980px; width: 100%; margin: 0 auto; }
     .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
     .tab { background: #f0dfca; color: var(--accent); }
     .tab.active { background: var(--accent); color: #fff; }
@@ -843,6 +845,10 @@ JS syntax OK
       preferment.active.forEach((row, index) => {
         const phase = `${index + 1}. ${row.label}`;
         const prefermentFlourDescription = mix.active.map(item => `${grams(row.flour * item.share)} ${item.label}`).join(" + ") || `${grams(row.flour)} wybranej mąki`;
+        if (!row.yeast) {
+          const seed = Math.max(5, Math.round((row.flour + row.water) * 0.1));
+          phaseRows.push([phase, "aktywny zakwas bazowy", `${grams(seed)} — użyj swojego aktywnego zakwasu`]);
+        }
         phaseRows.push([phase, row.yeast ? "mąka do zaczynu" : "mąka do levainu", prefermentFlourDescription]);
         phaseRows.push([phase, row.yeast ? "woda do zaczynu" : "woda do levainu", grams(row.water)]);
         if (row.yeast) phaseRows.push([phase, "drożdże", yeastDoseShort(row.flour, room)]);
@@ -890,6 +896,7 @@ JS syntax OK
     let currentStep = 1;
     const formPanel = document.querySelector(".inputs");
     const resultPanel = document.querySelector(".results");
+    const layoutPanel = document.querySelector(".layout");
     formPanel.querySelectorAll("fieldset").forEach((field, index) => field.dataset.step = String(index + 1));
     formPanel.querySelector(".actions").dataset.step = "3";
     resultPanel.querySelector(".summary").dataset.step = "4";
@@ -904,6 +911,7 @@ JS syntax OK
       });
       formPanel.classList.toggle("workflow-hidden", currentStep > 3);
       resultPanel.classList.toggle("workflow-hidden", currentStep < 4);
+      layoutPanel.classList.toggle("workflow-results", currentStep >= 4);
       document.querySelectorAll(".workflow-nav button").forEach(button => button.classList.toggle("active", Number(button.dataset.step) === currentStep));
       document.getElementById("workflowPrev").disabled = currentStep === 1;
       document.getElementById("workflowNext").disabled = currentStep === 7;
