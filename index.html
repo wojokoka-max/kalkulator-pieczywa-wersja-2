@@ -490,6 +490,13 @@
           <legend>3. Warunki w kuchni</legend>
           <p class="calculated-note small">Podaj tylko temperaturę kuchni. Pozostałe temperatury kalkulator dobierze sam.</p>
           <label>
+            Jak będziesz piec?
+            <select id="bakeMethod">
+              <option value="standard">Na blasze, kamieniu lub stali</option>
+              <option value="castIron">W naczyniu żeliwnym z pokrywką</option>
+            </select>
+          </label>
+          <label>
             Temperatura kuchni (°C)
             <input id="roomTemp" type="number" min="12" max="34" step="0.5" value="22">
           </label>
@@ -626,7 +633,7 @@
     const prefermentRows = [1, 2, 3];
     const prefermentIds = prefermentRows.flatMap(n => [`pref${n}Type`, `pref${n}FlourPct`, `pref${n}Hydration`]);
     const stockIds = ["stockWhite", "stockWhole", "stockRyeLight", "stockRyeWhole", "stockSpelt"];
-    const ids = ["product", "flour", "flourPreset", "mixTotal", ...flourMixIds, "prefermentPreset", ...prefermentIds, "roomTemp", "flourTemp", "starterTemp", "friction", "doughTemp", ...stockIds];
+    const ids = ["product", "flour", "flourPreset", "mixTotal", ...flourMixIds, "prefermentPreset", ...prefermentIds, "roomTemp", "flourTemp", "starterTemp", "friction", "doughTemp", "bakeMethod", ...stockIds];
     const el = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
 
     function optionList(select, data) {
@@ -793,7 +800,7 @@
     function finalBakeGuidance(product) {
       const enriched = product.enrich > 15;
       const shaped = product.label.includes("pizza") || product.label.includes("Focaccia");
-      const castIron = !enriched && !product.label.includes("pizza") && !product.label.includes("Focaccia")
+      const castIron = el.bakeMethod.value === "castIron" && !enriched && !product.label.includes("pizza") && !product.label.includes("Focaccia")
         ? "<p class=\"callout\"><strong>Pieczenie w naczyniu żeliwnym z pokrywką</strong><br>Rozgrzej piekarnik razem z naczyniem do <strong>250°C</strong>. Włóż bochenek do gorącego naczynia i piecz <strong>20 minut pod przykryciem</strong>. Następnie zdejmij pokrywkę, zmniejsz temperaturę do <strong>220°C</strong> i piecz jeszcze <strong>25 minut bez przykrycia</strong>.</p>"
         : "";
       if (shaped) return `<div class="section"><h3>Przed pieczeniem</h3><p><strong>Ciasto:</strong> powinno być napowietrzone, miękkie i wyraźnie rozciągliwe. Focaccię delikatnie rozciągnij na blasze, nie odgazowuj jej wałkiem. Pizzę rozciągnij palcami od środka do brzegów.</p><p><strong>Kiedy piec:</strong> gdy ciasto ma widoczne pęcherzyki i reaguje sprężyście na dotyk. Focaccię możesz posmarować oliwą i zrobić palcami dołki; pizzy nie nacinaj.</p></div>`;
