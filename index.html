@@ -469,6 +469,8 @@ JS syntax OK
           </table>
         </div>
 
+        <div class="section" id="bakeGuidance"></div>
+
         <div class="section callout">
           <h2>Ocena ciasta</h2>
           <p class="note" id="diagnosis"></p>
@@ -680,6 +682,13 @@ JS syntax OK
       return steps.join("");
     }
 
+    function finalBakeGuidance(product) {
+      const enriched = product.enrich > 15;
+      const shaped = product.label.includes("pizza") || product.label.includes("Focaccia");
+      if (shaped) return `<div class="section"><h3>Przed pieczeniem</h3><p><strong>Ciasto:</strong> powinno być napowietrzone, miękkie i wyraźnie rozciągliwe. Focaccię delikatnie rozciągnij na blasze, nie odgazowuj jej wałkiem. Pizzę rozciągnij palcami od środka do brzegów.</p><p><strong>Kiedy piec:</strong> gdy ciasto ma widoczne pęcherzyki i reaguje sprężyście na dotyk. Focaccię możesz posmarować oliwą i zrobić palcami dołki; pizzy nie nacinaj.</p></div>`;
+      return `<div class="section"><h3>Przed włożeniem do pieca</h3><p><strong>Jak ma wyglądać ciasto:</strong> bochenek powinien być napuszony, mieć wyraźnie większą objętość, gładką lub lekko napiętą powierzchnię i sprężystość. Naciśnij delikatnie palcem: ślad powinien powoli wracać, ale nie znikać natychmiast.</p><p><strong>Kiedy piec:</strong> jeśli ślad wraca od razu, daj ciastu jeszcze czas. Jeśli zapada się i nie wraca, jest prawdopodobnie przefermentowane — piecz od razu i obchodź się z nim bardzo delikatnie.</p><p><strong>Jak naciąć:</strong> użyj żyletki albo bardzo ostrego, cienkiego noża. Zrób jedno długie nacięcie na około <strong>0,5-1 cm głębokości</strong>, pod kątem około 30-45°, prowadząc ostrze zdecydowanym ruchem. Przy dużym, okrągłym bochenku możesz zrobić krzyż lub cztery krótsze nacięcia. Nie piłuj powierzchni i nie dociskaj bochenka.</p>${enriched ? "<p><strong>Wyjątek:</strong> chałki, rogali i słodkich bułek zwykle się nie nacina — zaplątanie lub uformowanie jest wystarczającym przygotowaniem.</p>" : "<p><strong>Przygotuj piec wcześniej:</strong> piekarnik i naczynie do pieczenia muszą być już dobrze nagrzane. Przełóż bochenek szybko, aby nie stracił objętości.</p>"}</div>`;
+    }
+
     function setDefaults() {
       const product = products[el.product.value];
       el.flourPreset.value = el.product.value === "ryeMix" ? "rye" : "everyday";
@@ -749,6 +758,7 @@ JS syntax OK
 
       document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
         .map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
+      document.getElementById("bakeGuidance").innerHTML = finalBakeGuidance(product);
 
       const warnings = [];
       if (Math.abs(mix.totalPct - 100) > 1) warnings.push("Suma mąk nie wynosi 100%, więc udziały zostały przeliczone proporcjonalnie.");
