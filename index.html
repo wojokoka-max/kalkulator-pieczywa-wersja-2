@@ -302,13 +302,13 @@ JS syntax OK
 <body>
   <main>
     <header>
-      <h1>Kalkulator pieczywa: zakwas, biga, poolish</h1>
-      <p class="lead">Przelicznik mąki, wody, soli, zaczynu, temperatury wody, czasu fermentacji i temperatury pieczenia. Wyniki są punktem startowym, bo realny czas zależy od mąki, siły zakwasu i temperatury kuchni.</p>
+      <h1>Kalkulator pieczywa na zakwasie</h1>
+      <p class="lead">Podaj, co chcesz upiec i jakie masz składniki. Otrzymasz gotową listę ilości oraz prosty plan prowadzenia ciasta — bez liczenia procentów.</p>
     </header>
 
     <div class="layout">
       <form class="panel inputs" id="calculator">
-        <p class="beginner-note"><strong>Nie musisz znać się na pieczeniu.</strong><br>Wybierz rodzaj wypieku, wpisz ilość mąki i zaznacz to, czego używasz. Resztę — także procenty i temperatury — policzymy za Ciebie.</p>
+      <p class="beginner-note"><strong>Nie musisz znać się na pieczeniu.</strong><br>Wybierz rodzaj wypieku, wpisz ilość mąki i zaznacz to, czego używasz. Resztę — także proporcje i temperaturę wody — policzymy za Ciebie.</p>
         <fieldset>
           <legend>1. Co pieczesz?</legend>
           <label>
@@ -507,7 +507,7 @@ JS syntax OK
     };
 
     const prefermentTypes = {
-      sourdough100: { label: "zakwas 100%", hyd: 100, yeast: false, note: "klasyczny zakwas pszenny lub żytni" },
+      sourdough100: { label: "zwykły zakwas (dokarmiony mąką i wodą)", hyd: 100, yeast: false, note: "klasyczny zakwas pszenny lub żytni" },
       stiffSourdough: { label: "sztywny zakwas / lievito madre", hyd: 50, yeast: false, note: "łagodniejszy profil, dobry do słodkich ciast" },
       levain: { label: "levain pszenny", hyd: 100, yeast: false, note: "aktywny zaczyn pszenny, zwykle łagodniejszy niż żytni" },
       ryeSourdough: { label: "zakwas żytni", hyd: 100, yeast: false, note: "mocny aromat i szybka fermentacja" },
@@ -517,7 +517,7 @@ JS syntax OK
     };
 
     const prefermentPresets = {
-      oneSourdough: { label: "jeden aktywny zakwas", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      oneSourdough: { label: "mam zwykły, aktywny zakwas", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
       mixedSourdough: { label: "mieszanka: zakwas żytni + levain", rows: [["ryeSourdough", 15, 100], ["levain", 15, 100], ["none", 0, 50]] },
       stiffSweet: { label: "łagodny sztywny zakwas do słodkich", rows: [["stiffSourdough", 18, 50], ["none", 0, 100], ["none", 0, 50]] },
       poolish: { label: "poolish drożdżowy", rows: [["poolish", 30, 100], ["none", 0, 100], ["none", 0, 50]] },
@@ -700,9 +700,9 @@ JS syntax OK
       phaseRows.push(["2. Ciasto właściwe", "woda", grams(finalWater)]);
       phaseRows.push(["2. Ciasto właściwe", "sól", grams(salt)]);
       phaseRows.push(["2. Ciasto właściwe", "tłuszcz/cukier/jajka razem", grams(enrichGrams)]);
-      phaseRows.push(["3. Suma kontrolna", "mąka razem", `${grams(flour)} (${flourDescription})`]);
-      phaseRows.push(["3. Suma kontrolna", "woda razem", `${grams(totalWater)}; hydracja ${Math.round(adjustedHydration)}%`]);
-      phaseRows.push(["3. Suma kontrolna", "zaczyny razem", `${grams(preferment.flourTotal + preferment.waterTotal)}; średnia hydracja ${Math.round(preferment.averageHydration || 0)}%`]);
+      phaseRows.push(["3. Podsumowanie", "mąka razem", `${grams(flour)} (${flourDescription})`]);
+      phaseRows.push(["3. Podsumowanie", "woda razem", grams(totalWater)]);
+      phaseRows.push(["3. Podsumowanie", "zakwas lub zaczyn razem", grams(preferment.flourTotal + preferment.waterTotal)]);
       document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
 
       document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
