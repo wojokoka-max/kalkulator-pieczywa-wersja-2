@@ -455,6 +455,11 @@ JS syntax OK
         </div>
 
         <div class="section">
+          <h2>Jak przygotować zaczyn — krok po kroku</h2>
+          <div class="callout" id="starterSteps"></div>
+        </div>
+
+        <div class="section">
           <h2>Harmonogram</h2>
           <table>
             <thead>
@@ -641,6 +646,27 @@ JS syntax OK
       return { totalPct, waterAdj, timeAdj, ryeShare, wholeShare, active };
     }
 
+    function starterInstructions(preferment, mix, flour) {
+      if (!preferment.active.length) {
+        return "<p class=\"note\"><strong>Nie przygotowujesz zaczynu.</strong> Wymieszaj składniki ciasta właściwego zgodnie z tabelą powyżej.</p>";
+      }
+      const flourDescription = mix.active.map(item => item.label).join(" + ") || "wybranej mąki";
+      const steps = [];
+      preferment.active.forEach(row => {
+        const total = row.flour + row.water;
+        const seed = row.yeast ? 0 : Math.max(5, Math.round(total * 0.1));
+        const addedFlour = row.yeast ? row.flour : Math.max(0, row.flour - seed / 2);
+        const addedWater = row.yeast ? row.water : Math.max(0, row.water - seed / 2);
+        if (row.yeast) {
+          steps.push(`<p><strong>${row.label} — przygotuj cały zaczyn (${grams(total)}):</strong><br>Odważ ${grams(row.flour)} ${flourDescription} oraz ${grams(row.water)} wody. Dodaj drożdże w ilości podanej w tabeli „Fazy i składniki”. Wymieszaj i zostaw do dojrzenia.</p>`);
+        } else {
+          steps.push(`<p><strong>${row.label} — przygotuj jeden zaczyn (${grams(total)}):</strong><br>1. Odważ <strong>${grams(seed)} aktywnego zakwasu bazowego</strong> (takiego, który po dokarmieniu rośnie i pachnie świeżo).<br>2. Dodaj <strong>${grams(addedFlour)} ${flourDescription}</strong> oraz <strong>${grams(addedWater)} wody</strong>.<br>3. Wymieszaj. To razem da około <strong>${grams(total)} gotowego levainu/zaczynu</strong>.<br>4. Zostaw w temperaturze pokojowej do wyraźnego wyrośnięcia. Dopiero wtedy dodaj całość do ciasta właściwego.</p>`);
+        }
+      });
+      steps.push(`<p class="note"><strong>Potem przygotuj ciasto właściwe:</strong> użyj dokładnie ilości mąki i wody pokazanych przy „Ciaście właściwym”. Nie dodawaj ponownie składników zużytych już w zaczynie — są już wliczone w całość.</p>`);
+      return steps.join("");
+    }
+
     function setDefaults() {
       const product = products[el.product.value];
       el.flourPreset.value = el.product.value === "ryeMix" ? "rye" : "everyday";
@@ -706,6 +732,7 @@ JS syntax OK
       phaseRows.push(["3. Podsumowanie", "woda razem", grams(totalWater)]);
       phaseRows.push(["3. Podsumowanie", "zakwas lub zaczyn razem", grams(preferment.flourTotal + preferment.waterTotal)]);
       document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
+      document.getElementById("starterSteps").innerHTML = starterInstructions(preferment, mix, flour);
 
       document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
         .map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
