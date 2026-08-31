@@ -603,6 +603,27 @@ JS syntax OK
       return { active, flourTotal, waterTotal, yeastFlour, averageHydration };
     }
 
+    function processPlan(product, mix, bulk, proof, room, enrichment) {
+      const autolyse = enrichment <= 15 && product.label !== "Croissant / ciasto laminowane";
+      const foldAdvice = mix.ryeShare >= 0.5
+        ? "1 delikatne złożenie, potem obserwuj wzrost; żytnie ciasto łatwo odgazować"
+        : "złóż po 30 i 60 min, jeśli ciasto jest luźne; później zostaw je w spokoju";
+      const rows = [
+        ["Faza 1: przygotowanie zaczynu", product.enrich > 20 ? "zgodnie z aktywnością zakwasu" : "4-12 h, zależnie od karmienia i temperatury", "zaczyn wyrośnięty, aktywny, bez ostrego zapachu rozkładu"]
+      ];
+      if (autolyse) {
+        rows.push(["Faza 2: autoliza", enrichment > 0 ? "10-20 min" : "20-45 min", "mąka połączona z większością wody; ciasto wyraźnie mniej szorstkie"]);
+      }
+      rows.push(
+        [autolyse ? "Faza 3: mieszanie ciasta" : "Faza 2: mieszanie ciasta", enrichment > 15 ? "do połączenia składników, bez przegrzewania" : "do uzyskania jednolitego ciasta", "sól, zaczyn i pozostała woda są równomiernie rozprowadzone"],
+        [autolyse ? "Faza 4: fermentacja wstępna" : "Faza 3: fermentacja wstępna", `${hours(bulk)} przy ok. ${room}°C`, product.note],
+        [autolyse ? "Faza 5: składanie i odpoczynek" : "Faza 4: składanie i odpoczynek", "zwykle 1-2 złożenia w pierwszej połowie fermentacji", foldAdvice],
+        [autolyse ? "Faza 6: formowanie i garowanie" : "Faza 5: formowanie i garowanie", `${hours(proof)} przy ok. ${room}°C`, "ciasto sprężyste; po naciśnięciu powoli wraca, a bochenek zwiększa objętość"],
+        [autolyse ? "Faza 7: pieczenie" : "Faza 6: pieczenie", product.bake, "dopiekaj do mocnego zapachu skórki i stabilnego spodu"]
+      );
+      return rows;
+    }
+
     function flourMix() {
       const raw = flourMixIds.map(id => ({ id, pct: Math.max(0, number(id)), ...flourTypes[id] }));
       const totalPct = raw.reduce((sum, item) => sum + item.pct, 0);
@@ -684,13 +705,8 @@ JS syntax OK
       phaseRows.push(["3. Suma kontrolna", "zaczyny razem", `${grams(preferment.flourTotal + preferment.waterTotal)}; średnia hydracja ${Math.round(preferment.averageHydration || 0)}%`]);
       document.getElementById("ingredients").innerHTML = phaseRows.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
 
-      document.getElementById("process").innerHTML = [
-        ["Faza 1: dojrzewanie zaczynów", preferment.yeastFlour > 0 ? "8-18 h w 18-22°C dla bigi/poolish; zakwas według aktywności" : "4-12 h, zależnie od karmienia i temperatury", "aktywne, wyrośnięte, bez ostrego zapachu rozkładu"],
-        ["Faza 2: mieszanie / autoliza", enrichment > 15 ? "10-20 min" : "20-45 min", "mąka nawodniona, ciasto mniej szorstkie"],
-        ["Faza 3: fermentacja wstępna", `${hours(bulk)} przy ok. ${room}°C`, product.note],
-        ["Faza 4: formowanie i garowanie", `${hours(proof)} przy ok. ${room}°C`, "ciasto sprężyste, powoli wraca po naciśnięciu"],
-        ["Faza 5: pieczenie", product.bake, "dopiekaj do mocnego zapachu skórki i stabilnego spodu"]
-      ].map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
+      document.getElementById("process").innerHTML = processPlan(product, mix, bulk, proof, room, enrichment)
+        .map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("");
 
       const warnings = [];
       if (Math.abs(mix.totalPct - 100) > 1) warnings.push("Suma mąk nie wynosi 100%, więc udziały zostały przeliczone proporcjonalnie.");
