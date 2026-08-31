@@ -277,6 +277,14 @@ JS syntax OK
     .ingredient-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
     .ingredient-line small { grid-column: 1 / -1; color: var(--muted); font-size: .78rem; }
     .ingredient-line strong { font-weight: 650; }
+    .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
+    .tab { background: #f0dfca; color: var(--accent); }
+    .tab.active { background: var(--accent); color: #fff; }
+    .guide { display: none; }
+    .guide.active { display: block; }
+    .guide-card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin-bottom: 12px; }
+    .layout > .tabs, .layout > .guide, .layout > #calculatorTab { grid-column: 1 / -1; }
+    #calculatorTab { display: grid; grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: 18px; align-items: start; }
 
     .callout {
       border-left: 4px solid var(--accent);
@@ -302,7 +310,7 @@ JS syntax OK
 
     @media (max-width: 860px) {
       main { width: min(100% - 20px, 720px); padding-top: 18px; }
-      .layout { grid-template-columns: 1fr; }
+      .layout, #calculatorTab { grid-template-columns: 1fr; }
       .inputs { position: static; }
       .summary { grid-template-columns: 1fr 1fr; }
     }
@@ -324,6 +332,26 @@ JS syntax OK
     </header>
 
     <div class="layout">
+      <nav class="tabs" aria-label="Wybór narzędzia">
+        <button type="button" class="tab active" data-tab="calculatorTab">Kalkulator chleba</button>
+        <button type="button" class="tab" data-tab="starterTab">Jak zrobić zakwas?</button>
+      </nav>
+      <section class="guide" id="starterTab">
+        <div class="guide-card">
+          <h2>Jak zrobić zakwas od podstaw</h2>
+          <p>Potrzebujesz tylko mąki, wody, słoika i kilku dni cierpliwości. Nie zamykaj słoika szczelnie — przykryj go luźno.</p>
+          <h3>Dzień 1</h3><p>Wymieszaj <strong>50 g mąki żytniej razowej</strong> i <strong>50 g wody</strong>. Przykryj i zostaw w cieple, najlepiej w 22-26°C, na 24 godziny.</p>
+          <h3>Dzień 2-5</h3><p>Zostaw w słoiku 50 g mieszanki. Dodaj <strong>50 g mąki</strong> i <strong>50 g wody</strong>. Wymieszaj i powtarzaj co 24 godziny. Jeśli zakwas rośnie bardzo szybko i opada przed kolejnym karmieniem, dokarmiaj co 12 godzin.</p>
+          <h3>Po czym poznać, że zakwas jest gotowy?</h3><p>Powinien regularnie rosnąć, mieć pęcherzyki w całej objętości i pachnieć kwaśno, owocowo lub jogurtowo. Jeśli ma różową, pomarańczową albo zieloną pleśń — wyrzuć całość i zacznij od nowa.</p>
+        </div>
+        <div class="guide-card">
+          <h2>Zakwas żytni i pszenny — czym się różnią?</h2>
+          <p><strong>Żytni</strong> zwykle rośnie szybciej, jest gęsty, kleisty i ma dużo drobnych pęcherzyków. Może wyglądać jak gęsta pasta.</p>
+          <p><strong>Pszenny</strong> jest jaśniejszy, bardziej sprężysty i często ma większe pęcherzyki. Po dokarmieniu może rosnąć wolniej, ale jego wierzch wyraźnie się zaokrągla.</p>
+          <p>Do przygotowania konkretnego levainu użyj zakwasu, który masz aktywny. Kalkulator chleba rozpisze potem dokładnie, ile tego zakwasu, mąki i wody odważyć.</p>
+        </div>
+      </section>
+      <div id="calculatorTab">
       <form class="panel inputs" id="calculator">
       <p class="beginner-note"><strong>Nie musisz znać terminologii piekarskiej.</strong><br>Wybierz najbliższą opcję, a przy wyniku zobaczysz dokładnie, co przygotować i dlaczego. Nie musisz samodzielnie liczyć proporcji — wszystkie ilości podamy w gramach.</p>
         <fieldset>
@@ -494,6 +522,7 @@ JS syntax OK
           <p class="note">Zakwas liczony jest jako mąka + woda obecne w cieście, nie jako dodatkowa mąka ponad wybraną sumę. Biga i poolish są liczone tak samo. Dla drożdży kalkulator podaje orientacyjny zakres, bo realna dawka zależy od czasu i temperatury dojrzewania zaczynu.</p>
         </div>
       </section>
+      </div>
     </div>
   </main>
 
@@ -531,6 +560,8 @@ JS syntax OK
       sourdough100: { label: "zakwas 100% — równe ilości mąki i wody", hyd: 100, yeast: false, note: "zakwas prowadzony przy 100% nawodnieniu: tyle samo gramów mąki co wody" },
       stiffSourdough: { label: "sztywny zakwas / lievito madre", hyd: 50, yeast: false, note: "łagodniejszy profil, dobry do słodkich ciast" },
       levain: { label: "levain pszenny", hyd: 100, yeast: false, note: "aktywny zaczyn pszenny, zwykle łagodniejszy niż żytni" },
+      levainRye: { label: "levain żytni", hyd: 100, yeast: false, note: "aktywny zaczyn żytni o wyraźniejszym aromacie" },
+      levainMixed: { label: "levain mieszany — pszenny i żytni", hyd: 100, yeast: false, note: "aktywny zaczyn przygotowany z mąki pszennej i żytniej" },
       ryeSourdough: { label: "zakwas żytni", hyd: 100, yeast: false, note: "mocny aromat i szybka fermentacja" },
       biga: { label: "biga drożdżowa", hyd: 50, yeast: true, note: "zwykle 12-18 h dojrzewania, sztywna struktura" },
       poolish: { label: "poolish drożdżowy", hyd: 100, yeast: true, note: "zwykle 8-16 h dojrzewania, płynny zaczyn" },
@@ -540,6 +571,7 @@ JS syntax OK
     const prefermentPresets = {
       oneSourdough: { label: "mam zwykły, aktywny zakwas", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
       levain: { label: "mam levain (aktywny zaczyn pszenny)", rows: [["levain", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      levainMixed: { label: "mam levain mieszany (pszenny i żytni)", rows: [["levainMixed", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
       mixedSourdough: { label: "mieszanka: zakwas żytni + levain", rows: [["ryeSourdough", 15, 100], ["levain", 15, 100], ["none", 0, 50]] },
       stiffSweet: { label: "łagodny sztywny zakwas do słodkich", rows: [["stiffSourdough", 18, 50], ["none", 0, 100], ["none", 0, 50]] },
       poolish: { label: "poolish drożdżowy", rows: [["poolish", 30, 100], ["none", 0, 100], ["none", 0, 50]] },
@@ -821,6 +853,10 @@ JS syntax OK
     });
     document.getElementById("reset").addEventListener("click", setDefaults);
     document.getElementById("print").addEventListener("click", () => window.print());
+    document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => {
+      document.querySelectorAll("[data-tab]").forEach(item => item.classList.toggle("active", item === button));
+      document.querySelectorAll(".guide, #calculatorTab").forEach(view => view.classList.toggle("active", view.id === button.dataset.tab));
+    }));
   </script>
 </body>
 </html>
