@@ -492,8 +492,8 @@
           <label>
             Jak będziesz piec?
             <select id="bakeMethod">
-              <option value="standard">Na blasze, kamieniu lub stali</option>
-              <option value="noSteam">Na blasze bez funkcji pary</option>
+              <option value="standard">Blacha, kamień lub stal — mam funkcję pary</option>
+              <option value="noSteam">Blacha, kamień lub stal — bez funkcji pary</option>
               <option value="castIron">W naczyniu żeliwnym z pokrywką</option>
             </select>
           </label>
@@ -805,9 +805,9 @@
         ? "<p class=\"callout\"><strong>Pieczenie w naczyniu żeliwnym z pokrywką</strong><br>Rozgrzej piekarnik razem z naczyniem do <strong>250°C</strong>. Włóż bochenek do gorącego naczynia i piecz <strong>20 minut pod przykryciem</strong>. Następnie zdejmij pokrywkę, zmniejsz temperaturę do <strong>220°C</strong> i piecz jeszcze <strong>25 minut bez przykrycia</strong>.</p>"
         : "";
       const noSteam = el.bakeMethod.value === "noSteam" && !enriched && !product.label.includes("pizza") && !product.label.includes("Focaccia")
-        ? "<p class=\"callout\"><strong>Pieczenie bez funkcji pary</strong><br>Ustaw <strong>240°C</strong>. Na dnie piekarnika postaw żaroodporne naczynie i wlej do niego około <strong>150 ml wrzątku</strong> tuż po włożeniu chleba. Po <strong>15 minutach</strong> ostrożnie wyjmij naczynie z wodą lub wypuść parę, zmniejsz temperaturę do <strong>220°C</strong> i dopiekaj jeszcze <strong>20–25 minut</strong>.</p>"
+        ? "<p class=\"callout\"><strong>Pieczenie bez funkcji pary</strong><br>Ustaw <strong>240°C</strong>. Wstaw na dno piekarnika żaroodporną miskę z około <strong>150 ml wody</strong>. Włóż chleb, zamknij piekarnik i <strong>nie otwieraj go później</strong>. Piecz łącznie około <strong>20 minut w 240°C</strong>, następnie zmniejsz temperaturę do <strong>220°C</strong> i dopiekaj jeszcze <strong>20–25 minut</strong>, nadal bez otwierania piekarnika.</p>"
         : "";
-      const selectedMethod = el.bakeMethod.value === "castIron" ? "naczynie żeliwne z pokrywką" : el.bakeMethod.value === "noSteam" ? "blacha bez funkcji pary" : "blacha, kamień lub stal z parą";
+      const selectedMethod = el.bakeMethod.value === "castIron" ? "naczynie żeliwne z pokrywką" : el.bakeMethod.value === "noSteam" ? "blacha, kamień lub stal — bez funkcji pary" : "blacha, kamień lub stal — z funkcją pary";
       const bakeInstruction = castIron ? "20 min 250°C pod przykryciem, potem 25 min 220°C bez przykrycia" : product.bake;
       if (shaped) return `<div class="section"><h3>Przed pieczeniem</h3><p><strong>Ciasto:</strong> powinno być napowietrzone, miękkie i wyraźnie rozciągliwe. Focaccię delikatnie rozciągnij na blasze, nie odgazowuj jej wałkiem. Pizzę rozciągnij palcami od środka do brzegów.</p><p><strong>Kiedy piec:</strong> gdy ciasto ma widoczne pęcherzyki i reaguje sprężyście na dotyk. Focaccię możesz posmarować oliwą i zrobić palcami dołki; pizzy nie nacinaj.</p></div>`;
       if (product.label.includes("Bagietki")) return `<div class="section"><h3>Przed włożeniem do pieca</h3><p class="callout"><strong>Temperatura i czas pieczenia:</strong><br>${product.bake}</p><p><strong>Jak ma wyglądać ciasto:</strong> bagietka powinna być wyraźnie napowietrzona, sprężysta i lekka. Po delikatnym naciśnięciu ślad powinien powoli wracać. Przenoś ją ostrożnie, najlepiej na papierze lub desce, żeby nie odgazować ciasta.</p><p><strong>Jak naciąć:</strong> użyj żyletki. Na każdej bagietce wykonaj <strong>3–5 długich, lekko skośnych nacięć</strong>, każde częściowo zachodzące na poprzednie. Nacinaj płytko, około <strong>0,5 cm</strong>, tuż przed włożeniem do pieca.</p><p><strong>Para:</strong> włóż bagietki do dobrze nagrzanego piekarnika. Zapewnij parę na początku pieczenia, a po około 10 minutach wypuść ją, aby skórka się zrumieniła i stała chrupiąca.</p><div class="photo-guide"><figure><img src="assets/ciasto-na-blacie.jpg" alt="Ciasto przygotowane do formowania"><figcaption>Formuj delikatnie, zachowując pęcherzyki.</figcaption></figure><figure><img src="assets/gotowy-chleb-1.jpg" alt="Nacięty i upieczony chleb"><figcaption>Nacięcia powinny otworzyć się w piecu.</figcaption></figure></div></div>`;
