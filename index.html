@@ -492,8 +492,8 @@
           <label>
             Jak będziesz piec?
             <select id="bakeMethod">
-              <option value="standard">Blacha, kamień lub stal — mam funkcję pary</option>
               <option value="noSteam">Blacha, kamień lub stal — bez funkcji pary</option>
+              <option value="standard">Blacha, kamień lub stal — mam funkcję pary</option>
               <option value="castIron">W naczyniu żeliwnym z pokrywką</option>
             </select>
           </label>
@@ -939,6 +939,7 @@
       document.querySelectorAll(".workflow-nav button").forEach(button => button.classList.toggle("active", Number(button.dataset.step) === currentStep));
       document.getElementById("workflowPrev").disabled = currentStep === 1;
       document.getElementById("workflowNext").disabled = currentStep === 7;
+      document.getElementById("workflowNext").textContent = currentStep === 7 ? "To już wszystko" : "Następny krok →";
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
     document.querySelectorAll(".workflow-nav button").forEach(button => button.addEventListener("click", () => setWorkflowStep(button.dataset.step)));
