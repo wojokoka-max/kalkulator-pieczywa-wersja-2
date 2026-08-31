@@ -972,22 +972,20 @@
     });
     document.getElementById("useStock").addEventListener("click", useStock);
     document.getElementById("bakeGuidance").addEventListener("click", event => {
-      const image = event.target.closest(".photo-guide img");
-      if (image) {
-        const lightbox = document.getElementById("imageLightbox");
-        const lightboxImage = document.getElementById("lightboxImage");
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
-        lightbox.hidden = false;
-        document.body.style.overflow = "hidden";
-        return;
-      }
       const button = event.target.closest("[data-bake-method]");
       if (!button) return;
       el.bakeMethod.value = button.dataset.bakeMethod;
       calculate();
     });
     const lightbox = document.getElementById("imageLightbox");
+    document.addEventListener("click", event => {
+      const image = event.target.closest(".photo-guide img");
+      if (!image) return;
+      document.getElementById("lightboxImage").src = image.src;
+      document.getElementById("lightboxImage").alt = image.alt;
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+    });
     const closeLightbox = () => { lightbox.hidden = true; document.body.style.overflow = ""; };
     document.getElementById("closeLightbox").addEventListener("click", closeLightbox);
     lightbox.addEventListener("click", event => { if (event.target === lightbox) closeLightbox(); });
