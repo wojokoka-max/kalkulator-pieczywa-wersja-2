@@ -663,6 +663,19 @@ JS syntax OK
           steps.push(`<p><strong>${row.label} — przygotuj jeden zaczyn (${grams(total)}):</strong><br>1. Odważ <strong>${grams(seed)} aktywnego zakwasu bazowego</strong> (takiego, który po dokarmieniu rośnie i pachnie świeżo).<br>2. Dodaj <strong>${grams(addedFlour)} ${flourDescription}</strong> oraz <strong>${grams(addedWater)} wody</strong>.<br>3. Wymieszaj. To razem da około <strong>${grams(total)} gotowego levainu/zaczynu</strong>.<br>4. Zostaw w temperaturze pokojowej do wyraźnego wyrośnięcia. Dopiero wtedy dodaj całość do ciasta właściwego.</p>`);
         }
       });
+      const readiness = preferment.active.map(row => {
+        const text = row.typeKey === "poolish"
+          ? "Poolish jest gotowy, gdy wyraźnie się spieni, pachnie przyjemnie drożdżowo i na powierzchni pojawiają się pęcherzyki. Nie czekaj, aż całkowicie opadnie."
+          : row.typeKey === "biga"
+            ? "Biga jest gotowa, gdy zwiększy objętość, ma porwaną, włóknistą strukturę i pachnie świeżo drożdżowo. Nie musi wyglądać jak płynne ciasto."
+            : row.typeKey === "stiffSourdough"
+              ? "Sztywny levain jest gotowy, gdy wyraźnie urośnie, popęka na powierzchni i pachnie łagodnie, mlecznie lub lekko owocowo."
+              : row.typeKey === "ryeSourdough"
+                ? "Zakwas żytni jest gotowy, gdy mocno się spieni, ma liczne pęcherzyki, lekko kopulasty lub właśnie zaczynający opadać wierzch i kwaśno-owocowy zapach."
+                : "Zakwas pszenny lub levain jest gotowy, gdy wyraźnie urośnie, ma pęcherzyki w całej objętości, lekko wypukły wierzch i świeży, lekko kwaskowy zapach. Jeśli już opadł i pachnie ostrym acetonem, jest przejrzały — dokarm go ponownie.";
+        return `<p><strong>Jak rozpoznać gotowość: ${row.label}</strong><br>${text}</p>`;
+      }).join("");
+      steps.push(`<div class=\"section\"><h3>Po czym poznać, że zaczyn jest gotowy?</h3>${readiness}<p class=\"note\"><strong>Nie kieruj się wyłącznie zegarem.</strong> Temperatura i siła zakwasu zmieniają czas dojrzewania. Liczy się wygląd, zapach i wyraźny wzrost.</p></div>`);
       steps.push(`<p class="note"><strong>Potem przygotuj ciasto właściwe:</strong> użyj dokładnie ilości mąki i wody pokazanych przy „Ciaście właściwym”. Nie dodawaj ponownie składników zużytych już w zaczynie — są już wliczone w całość.</p>`);
       return steps.join("");
     }
