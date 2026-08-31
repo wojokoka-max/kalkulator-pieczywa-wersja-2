@@ -1,4 +1,4 @@
-# Kalkulator pieczywa
+# Upieczmy chleb
 
 Prosty kalkulator pieczywa na zakwasie i zaczynach drożdżowych.
 
