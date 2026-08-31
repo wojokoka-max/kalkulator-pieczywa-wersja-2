@@ -372,7 +372,7 @@ JS syntax OK
             Wybierz najbliższą opcję
             <select id="prefermentPreset"></select>
           </label>
-          <p class="calculated-note small"><strong>Co oznacza „zakwas 100%”?</strong> To zakwas prowadzony przy równych wagach mąki i wody. Na przykład 50 g mąki + 50 g wody daje 100 g zakwasu. Kalkulator rozpisze osobno mąkę i wodę zakwasu oraz pokaże, ile zostaje do ciasta właściwego.</p>
+          <p class="calculated-note small"><strong>Co oznacza „zakwas 100%”?</strong> To zakwas prowadzony przy równych wagach mąki i wody. Na przykład 50 g mąki + 50 g wody daje 100 g zakwasu. <strong>Levain</strong> to przygotowana porcja aktywnego zaczynu, często łagodniejszego i zbudowanego na zakwasie pszennym. W obu przypadkach kalkulator rozpisze osobno mąkę i wodę oraz pokaże, ile zostaje do ciasta właściwego.</p>
           <details class="advanced">
             <summary>Ustawienia dla osób, które znają zaczyny</summary>
             <div class="preferment-mix">
@@ -519,6 +519,7 @@ JS syntax OK
 
     const prefermentPresets = {
       oneSourdough: { label: "mam zwykły, aktywny zakwas", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      levain: { label: "mam levain (aktywny zaczyn pszenny)", rows: [["levain", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
       mixedSourdough: { label: "mieszanka: zakwas żytni + levain", rows: [["ryeSourdough", 15, 100], ["levain", 15, 100], ["none", 0, 50]] },
       stiffSweet: { label: "łagodny sztywny zakwas do słodkich", rows: [["stiffSourdough", 18, 50], ["none", 0, 100], ["none", 0, 50]] },
       poolish: { label: "poolish drożdżowy", rows: [["poolish", 30, 100], ["none", 0, 100], ["none", 0, 50]] },
