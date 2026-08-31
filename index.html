@@ -4,7 +4,7 @@ JS syntax OK
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kalkulator pieczywa na zakwasie i zaczynach</title>
+<title>Upieczmy chleb</title>
   <style>
     :root {
       color-scheme: light;
@@ -282,6 +282,8 @@ JS syntax OK
     .tab.active { background: var(--accent); color: #fff; }
     .guide { display: none; }
     .guide.active { display: block; }
+    .layout > #calculatorTab { display: none; }
+    .layout > #calculatorTab.active { display: grid; }
     .guide-card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin-bottom: 12px; }
     .layout > .tabs, .layout > .guide, .layout > #calculatorTab { grid-column: 1 / -1; }
     #calculatorTab { display: grid; grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: 18px; align-items: start; }
@@ -351,7 +353,7 @@ JS syntax OK
           <p>Do przygotowania konkretnego levainu użyj zakwasu, który masz aktywny. Kalkulator chleba rozpisze potem dokładnie, ile tego zakwasu, mąki i wody odważyć.</p>
         </div>
       </section>
-      <div id="calculatorTab">
+      <div id="calculatorTab" class="active">
       <form class="panel inputs" id="calculator">
       <p class="beginner-note"><strong>Nie musisz znać terminologii piekarskiej.</strong><br>Wybierz najbliższą opcję, a przy wyniku zobaczysz dokładnie, co przygotować i dlaczego. Nie musisz samodzielnie liczyć proporcji — wszystkie ilości podamy w gramach.</p>
         <fieldset>
