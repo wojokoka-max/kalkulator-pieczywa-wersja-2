@@ -786,8 +786,8 @@ JS syntax OK
       const phaseRows = [];
       preferment.active.forEach((row, index) => {
         const phase = `${index + 1}. ${row.label}`;
-        phaseRows.push([phase, row.yeast ? "mąka w zaczynie" : "mąka w zakwasie", grams(row.flour)]);
-        phaseRows.push([phase, row.yeast ? "woda w zaczynie" : "woda w zakwasie", grams(row.water)]);
+        phaseRows.push([phase, row.yeast ? "mąka do zaczynu" : "dodaj mąkę", grams(row.flour)]);
+        phaseRows.push([phase, row.yeast ? "woda do zaczynu" : "dodaj wodę", grams(row.water)]);
         if (row.yeast) phaseRows.push([phase, "drożdże", yeastDoseShort(row.flour, room)]);
       });
       if (!preferment.active.length) {
