@@ -917,6 +917,7 @@
       resultPanel.classList.toggle("workflow-hidden", currentStep < 4);
       layoutPanel.classList.toggle("workflow-results", currentStep >= 4);
       calculatorTab.classList.toggle("workflow-inputs", currentStep <= 3);
+      calculatorTab.classList.toggle("workflow-results", currentStep >= 4);
       document.querySelectorAll(".workflow-nav button").forEach(button => button.classList.toggle("active", Number(button.dataset.step) === currentStep));
       document.getElementById("workflowPrev").disabled = currentStep === 1;
       document.getElementById("workflowNext").disabled = currentStep === 7;
