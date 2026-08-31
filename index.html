@@ -405,26 +405,26 @@ JS syntax OK
               </label>
               <div class="grid-2">
                 <label>
-                  Pszenna chlebowa jasna
+                  Pszenna typ 750 (chlebowa)
                   <input id="flourWhite" type="number" min="0" max="100" step="1" value="70">
                 </label>
                 <label>
-                  Pszenna chlebowa razowa
+                  Pszenna typ 1850 (graham)
                   <input id="flourWhole" type="number" min="0" max="100" step="1" value="0">
                 </label>
               </div>
               <div class="grid-2">
                 <label>
-                  Żytnia jasna
+                  Żytnia typ 720
                   <input id="flourRyeLight" type="number" min="0" max="100" step="1" value="30">
                 </label>
                 <label>
-                  Żytnia razowa
+                  Żytnia typ 2000 (razowa)
                   <input id="flourRyeWhole" type="number" min="0" max="100" step="1" value="0">
                 </label>
               </div>
               <label>
-                Orkiszowa
+                Orkiszowa typ 630 lub 1050
                 <input id="flourSpelt" type="number" min="0" max="100" step="1" value="0">
               </label>
             </div>
@@ -437,11 +437,11 @@ JS syntax OK
             <summary>Nie mam dokładnie tych mąk — dobierz mieszankę z moich zapasów</summary>
             <p class="calculated-note small">Wpisz, ile masz każdej mąki. Kalkulator wybierze dostępne mąki w rozsądnej kolejności i pokaże ich dokładne gramatury dla tego chleba.</p>
             <div class="grid-2">
-              <label>Pszenna chlebowa jasna (g)<input id="stockWhite" type="number" min="0" step="10" placeholder="np. 400"></label>
-              <label>Pszenna chlebowa razowa (g)<input id="stockWhole" type="number" min="0" step="10" placeholder="np. 300"></label>
-              <label>Żytnia jasna (g)<input id="stockRyeLight" type="number" min="0" step="10" placeholder="np. 200"></label>
-              <label>Żytnia razowa (g)<input id="stockRyeWhole" type="number" min="0" step="10" placeholder="np. 200"></label>
-              <label>Orkiszowa (g)<input id="stockSpelt" type="number" min="0" step="10" placeholder="np. 300"></label>
+              <label>Pszenna typ 750 (g)<input id="stockWhite" type="number" min="0" step="10" placeholder="np. 400"></label>
+              <label>Pszenna typ 1850 / graham (g)<input id="stockWhole" type="number" min="0" step="10" placeholder="np. 300"></label>
+              <label>Żytnia typ 720 (g)<input id="stockRyeLight" type="number" min="0" step="10" placeholder="np. 200"></label>
+              <label>Żytnia typ 2000 (g)<input id="stockRyeWhole" type="number" min="0" step="10" placeholder="np. 200"></label>
+              <label>Orkiszowa typ 630 / 1050 (g)<input id="stockSpelt" type="number" min="0" step="10" placeholder="np. 300"></label>
             </div>
             <button type="button" class="secondary" id="useStock">Dobierz z podanych zapasów</button>
             <p class="calculated-note small" id="stockMessage"></p>
@@ -577,11 +577,11 @@ JS syntax OK
     };
 
     const flourTypes = {
-      flourWhite: { label: "pszenna chlebowa jasna", waterAdj: 0, timeAdj: 1, note: "najbardziej przewidywalna baza" },
-      flourWhole: { label: "pszenna chlebowa razowa", waterAdj: 8, timeAdj: 0.9, note: "pije więcej wody, fermentuje zwykle szybciej" },
-      flourSpelt: { label: "orkiszowa", waterAdj: 3, timeAdj: 0.9, note: "delikatniejszy gluten, ostrożnie z wyrabianiem" },
-      flourRyeLight: { label: "żytnia jasna", waterAdj: 8, timeAdj: 0.85, note: "mniej elastyczna struktura, więcej lepkości" },
-      flourRyeWhole: { label: "żytnia razowa", waterAdj: 14, timeAdj: 0.8, note: "bardzo chłonna, ciasto bardziej pastowate" }
+      flourWhite: { label: "pszenna typ 750 (chlebowa)", waterAdj: 0, timeAdj: 1, note: "najbardziej przewidywalna baza" },
+      flourWhole: { label: "pszenna typ 1850 (graham)", waterAdj: 8, timeAdj: 0.9, note: "pije więcej wody, fermentuje zwykle szybciej" },
+      flourSpelt: { label: "orkiszowa typ 630/1050", waterAdj: 3, timeAdj: 0.9, note: "delikatniejszy gluten, ostrożnie z wyrabianiem" },
+      flourRyeLight: { label: "żytnia typ 720", waterAdj: 8, timeAdj: 0.85, note: "mniej elastyczna struktura, więcej lepkości" },
+      flourRyeWhole: { label: "żytnia typ 2000 (razowa)", waterAdj: 14, timeAdj: 0.8, note: "bardzo chłonna, ciasto bardziej pastowate" }
     };
 
     const flourPresets = {
