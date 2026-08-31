@@ -285,6 +285,9 @@ JS syntax OK
     .workflow-controls { display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
     .layout.workflow-results { grid-template-columns: minmax(0, 1fr); }
     .layout.workflow-results .results { max-width: 980px; width: 100%; margin: 0 auto; }
+    .layout > .workflow-nav, .layout > .workflow-controls { grid-column: 1 / -1; }
+    #calculatorTab.workflow-inputs .inputs { grid-column: 1 / -1; max-width: 760px; width: 100%; margin: 0 auto; }
+    #calculatorTab.workflow-inputs .results { display: none; }
     .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
     .tab { background: #f0dfca; color: var(--accent); }
     .tab.active { background: var(--accent); color: #fff; }
@@ -897,6 +900,7 @@ JS syntax OK
     const formPanel = document.querySelector(".inputs");
     const resultPanel = document.querySelector(".results");
     const layoutPanel = document.querySelector(".layout");
+    const calculatorTab = document.getElementById("calculatorTab");
     formPanel.querySelectorAll("fieldset").forEach((field, index) => field.dataset.step = String(index + 1));
     formPanel.querySelector(".actions").dataset.step = "3";
     resultPanel.querySelector(".summary").dataset.step = "4";
@@ -912,6 +916,7 @@ JS syntax OK
       formPanel.classList.toggle("workflow-hidden", currentStep > 3);
       resultPanel.classList.toggle("workflow-hidden", currentStep < 4);
       layoutPanel.classList.toggle("workflow-results", currentStep >= 4);
+      calculatorTab.classList.toggle("workflow-inputs", currentStep <= 3);
       document.querySelectorAll(".workflow-nav button").forEach(button => button.classList.toggle("active", Number(button.dataset.step) === currentStep));
       document.getElementById("workflowPrev").disabled = currentStep === 1;
       document.getElementById("workflowNext").disabled = currentStep === 7;
