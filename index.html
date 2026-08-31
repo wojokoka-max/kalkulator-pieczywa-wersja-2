@@ -302,13 +302,13 @@ JS syntax OK
 <body>
   <main>
     <header>
-      <h1>Kalkulator pieczywa na zakwasie</h1>
-      <p class="lead">Podaj, co chcesz upiec i jakie masz składniki. Otrzymasz gotową listę ilości oraz prosty plan prowadzenia ciasta — bez liczenia procentów.</p>
+      <h1>Kalkulator pieczywa: zakwas, biga i poolish</h1>
+      <p class="lead">Podaj, co chcesz upiec i jakie masz składniki. Otrzymasz dokładną listę: ile i jakiej mąki, ile wody, soli oraz zaczynu trafia do każdej fazy. Kalkulator wykonuje matematykę, ale wyjaśnia również użyte pojęcia.</p>
     </header>
 
     <div class="layout">
       <form class="panel inputs" id="calculator">
-      <p class="beginner-note"><strong>Nie musisz znać się na pieczeniu.</strong><br>Wybierz rodzaj wypieku, wpisz ilość mąki i zaznacz to, czego używasz. Resztę — także proporcje i temperaturę wody — policzymy za Ciebie.</p>
+      <p class="beginner-note"><strong>Nie musisz znać terminologii piekarskiej.</strong><br>Wybierz najbliższą opcję, a przy wyniku zobaczysz dokładnie, co przygotować i dlaczego. Nie musisz samodzielnie liczyć proporcji — wszystkie ilości podamy w gramach.</p>
         <fieldset>
           <legend>1. Co pieczesz?</legend>
           <label>
@@ -372,6 +372,7 @@ JS syntax OK
             Wybierz najbliższą opcję
             <select id="prefermentPreset"></select>
           </label>
+          <p class="calculated-note small"><strong>Co oznacza „zakwas 100%”?</strong> To zakwas prowadzony przy równych wagach mąki i wody. Na przykład 50 g mąki + 50 g wody daje 100 g zakwasu. Kalkulator rozpisze osobno mąkę i wodę zakwasu oraz pokaże, ile zostaje do ciasta właściwego.</p>
           <details class="advanced">
             <summary>Ustawienia dla osób, które znają zaczyny</summary>
             <div class="preferment-mix">
@@ -507,7 +508,7 @@ JS syntax OK
     };
 
     const prefermentTypes = {
-      sourdough100: { label: "zwykły zakwas (dokarmiony mąką i wodą)", hyd: 100, yeast: false, note: "klasyczny zakwas pszenny lub żytni" },
+      sourdough100: { label: "zakwas 100% — równe ilości mąki i wody", hyd: 100, yeast: false, note: "zakwas prowadzony przy 100% nawodnieniu: tyle samo gramów mąki co wody" },
       stiffSourdough: { label: "sztywny zakwas / lievito madre", hyd: 50, yeast: false, note: "łagodniejszy profil, dobry do słodkich ciast" },
       levain: { label: "levain pszenny", hyd: 100, yeast: false, note: "aktywny zaczyn pszenny, zwykle łagodniejszy niż żytni" },
       ryeSourdough: { label: "zakwas żytni", hyd: 100, yeast: false, note: "mocny aromat i szybka fermentacja" },
@@ -689,8 +690,8 @@ JS syntax OK
       const phaseRows = [];
       preferment.active.forEach((row, index) => {
         const phase = `${index + 1}. ${row.label}`;
-        phaseRows.push([phase, "mąka", grams(row.flour)]);
-        phaseRows.push([phase, "woda", grams(row.water)]);
+        phaseRows.push([phase, row.yeast ? "mąka w zaczynie" : "mąka w zakwasie", grams(row.flour)]);
+        phaseRows.push([phase, row.yeast ? "woda w zaczynie" : "woda w zakwasie", grams(row.water)]);
         if (row.yeast) phaseRows.push([phase, "drożdże", yeastDoseShort(row.flour, room)]);
       });
       if (!preferment.active.length) {
