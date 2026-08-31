@@ -410,6 +410,19 @@ JS syntax OK
             <strong>Hydratację dobierze kalkulator.</strong>
             Uwzględni rodzaj wypieku oraz chłonność wybranej mieszanki mąk.
           </div>
+          <details class="advanced inventory-box">
+            <summary>Nie mam dokładnie tych mąk — dobierz mieszankę z moich zapasów</summary>
+            <p class="calculated-note small">Wpisz, ile masz każdej mąki. Kalkulator wybierze dostępne mąki w rozsądnej kolejności i pokaże ich dokładne gramatury dla tego chleba.</p>
+            <div class="grid-2">
+              <label>Pszenna chlebowa jasna (g)<input id="stockWhite" type="number" min="0" step="10" placeholder="np. 400"></label>
+              <label>Pszenna chlebowa razowa (g)<input id="stockWhole" type="number" min="0" step="10" placeholder="np. 300"></label>
+              <label>Żytnia jasna (g)<input id="stockRyeLight" type="number" min="0" step="10" placeholder="np. 200"></label>
+              <label>Żytnia razowa (g)<input id="stockRyeWhole" type="number" min="0" step="10" placeholder="np. 200"></label>
+              <label>Orkiszowa (g)<input id="stockSpelt" type="number" min="0" step="10" placeholder="np. 300"></label>
+            </div>
+            <button type="button" class="secondary" id="useStock">Dobierz z podanych zapasów</button>
+            <p class="calculated-note small" id="stockMessage"></p>
+          </details>
           <p class="calculated-note small"><strong>Składniki dodatkowe dobierze kalkulator</strong> odpowiednio do wybranego wypieku — nie musisz niczego przeliczać.</p>
         </fieldset>
 
@@ -585,7 +598,8 @@ JS syntax OK
     const flourMixIds = Object.keys(flourTypes);
     const prefermentRows = [1, 2, 3];
     const prefermentIds = prefermentRows.flatMap(n => [`pref${n}Type`, `pref${n}FlourPct`, `pref${n}Hydration`]);
-    const ids = ["product", "flour", "flourPreset", "mixTotal", ...flourMixIds, "prefermentPreset", ...prefermentIds, "roomTemp", "flourTemp", "starterTemp", "friction", "doughTemp"];
+    const stockIds = ["stockWhite", "stockWhole", "stockRyeLight", "stockRyeWhole", "stockSpelt"];
+    const ids = ["product", "flour", "flourPreset", "mixTotal", ...flourMixIds, "prefermentPreset", ...prefermentIds, "roomTemp", "flourTemp", "starterTemp", "friction", "doughTemp", ...stockIds];
     const el = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
 
     function optionList(select, data) {
@@ -596,6 +610,25 @@ JS syntax OK
       const preset = flourPresets[key];
       if (!preset || !preset.values) return;
       Object.entries(preset.values).forEach(([id, value]) => { el[id].value = value; });
+    }
+
+    function useStock() {
+      const available = stockIds.map((id, index) => ({ id: flourMixIds[index], grams: Math.max(0, number(stockIds[index])) }));
+      const total = available.reduce((sum, item) => sum + item.grams, 0);
+      if (!total) {
+        document.getElementById("stockMessage").textContent = "Wpisz przynajmniej jedną ilość mąki.";
+        return;
+      }
+      available.forEach(item => { el[item.id].value = Math.round(item.grams / total * 100); });
+      const rounded = available.reduce((sum, item) => sum + number(item.id), 0);
+      const first = available.find(item => item.grams > 0);
+      if (first && rounded !== 100) el[first.id].value = Math.max(0, number(first.id) + 100 - rounded);
+      el.flourPreset.value = "custom";
+      const target = number("flour");
+      document.getElementById("stockMessage").textContent = total < target
+        ? `Masz razem tylko ${grams(total)} g mąki, a potrzebujesz ${grams(target)} g. Zwiększ zapasy albo zmniejsz ilość chleba.`
+        : `Ułożono mieszankę z podanych zapasów. Na ${grams(target)} g mąki kalkulator pokaże teraz dokładne gramatury każdej z nich.`;
+      calculate();
     }
 
     function setPrefermentPreset(key) {
@@ -839,6 +872,7 @@ JS syntax OK
       setFlourPreset(el.flourPreset.value);
       calculate();
     });
+    document.getElementById("useStock").addEventListener("click", useStock);
     flourMixIds.forEach(id => el[id].addEventListener("input", () => { el.flourPreset.value = "custom"; }));
     el.prefermentPreset.addEventListener("change", () => {
       setPrefermentPreset(el.prefermentPreset.value);
