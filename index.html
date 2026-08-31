@@ -277,6 +277,12 @@ JS syntax OK
     .ingredient-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 7px; background: #fff; }
     .ingredient-line small { grid-column: 1 / -1; color: var(--muted); font-size: .78rem; }
     .ingredient-line strong { font-weight: 650; }
+    .workflow-nav { display:flex; flex-wrap:wrap; gap:8px; margin: 0 0 18px; }
+    .workflow-nav button { border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:999px; padding:9px 13px; cursor:pointer; }
+    .workflow-nav button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .workflow-nav button:disabled { opacity:.45; cursor:not-allowed; }
+    .workflow-hidden { display:none !important; }
+    .workflow-controls { display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
     .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
     .tab { background: #f0dfca; color: var(--accent); }
     .tab.active { background: var(--accent); color: #fff; }
@@ -338,6 +344,21 @@ JS syntax OK
         <button type="button" class="tab active" data-tab="calculatorTab">Kalkulator chleba</button>
         <button type="button" class="tab" data-tab="starterTab">Jak zrobić zakwas?</button>
       </nav>
+      <nav class="workflow-nav" aria-label="Etapy pieczenia">
+        <button type="button" class="active" data-step="1">1. Start</button>
+        <button type="button" data-step="2">2. Zaczyn</button>
+        <button type="button" data-step="3">3. Warunki</button>
+        <button type="button" data-step="4">4. Składniki</button>
+        <button type="button" data-step="5">5. Przygotowanie</button>
+        <button type="button" data-step="6">6. Fermentacja</button>
+        <button type="button" data-step="7">7. Pieczenie</button>
+      </nav>
+      <div class="workflow-controls">
+        <button type="button" class="secondary" id="workflowHome">← Strona startowa</button>
+        <span></span>
+        <button type="button" class="secondary" id="workflowPrev">← Poprzedni krok</button>
+        <button type="button" id="workflowNext">Następny krok →</button>
+      </div>
       <section class="guide" id="starterTab">
         <div class="guide-card">
           <h2>Jak zrobić zakwas od podstaw</h2>
@@ -865,6 +886,34 @@ JS syntax OK
     prefermentRows.forEach(n => optionList(el[`pref${n}Type`], prefermentTypes));
     el.product.value = "country";
     setDefaults();
+
+    let currentStep = 1;
+    const formPanel = document.querySelector(".inputs");
+    const resultPanel = document.querySelector(".results");
+    formPanel.querySelectorAll("fieldset").forEach((field, index) => field.dataset.step = String(index + 1));
+    formPanel.querySelector(".actions").dataset.step = "3";
+    resultPanel.querySelector(".summary").dataset.step = "4";
+    resultPanel.querySelectorAll(":scope > .section").forEach((section, index) => {
+      section.dataset.step = String(index === 0 ? 4 : index === 1 ? 5 : index === 2 ? 6 : 7);
+    });
+    function setWorkflowStep(step) {
+      currentStep = Math.max(1, Math.min(7, Number(step)));
+      document.querySelectorAll("[data-step]").forEach(item => {
+        if (item.matches(".workflow-nav button")) return;
+        item.classList.toggle("workflow-hidden", Number(item.dataset.step) !== currentStep);
+      });
+      formPanel.classList.toggle("workflow-hidden", currentStep > 3);
+      resultPanel.classList.toggle("workflow-hidden", currentStep < 4);
+      document.querySelectorAll(".workflow-nav button").forEach(button => button.classList.toggle("active", Number(button.dataset.step) === currentStep));
+      document.getElementById("workflowPrev").disabled = currentStep === 1;
+      document.getElementById("workflowNext").disabled = currentStep === 7;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    document.querySelectorAll(".workflow-nav button").forEach(button => button.addEventListener("click", () => setWorkflowStep(button.dataset.step)));
+    document.getElementById("workflowHome").addEventListener("click", () => setWorkflowStep(1));
+    document.getElementById("workflowPrev").addEventListener("click", () => setWorkflowStep(currentStep - 1));
+    document.getElementById("workflowNext").addEventListener("click", () => setWorkflowStep(currentStep + 1));
+    setWorkflowStep(1);
 
     ids.forEach(id => el[id].addEventListener("input", calculate));
     el.product.addEventListener("change", setDefaults);
