@@ -372,6 +372,7 @@
       <nav class="tabs" aria-label="Wybór narzędzia">
         <button type="button" class="tab active" data-tab="calculatorTab">Kalkulator chleba</button>
         <button type="button" class="tab" data-tab="starterTab">Jak zrobić zakwas?</button>
+        <button type="button" class="tab" data-tab="prefermentTab">Jak zrobić levain, poolish i bigę?</button>
       </nav>
       <nav class="workflow-nav" aria-label="Etapy pieczenia">
         <button type="button" class="active" data-step="1">1. Start</button>
@@ -401,6 +402,26 @@
           <p><strong>Żytni</strong> zwykle rośnie szybciej, jest gęsty, kleisty i ma dużo drobnych pęcherzyków. Może wyglądać jak gęsta pasta.</p>
           <p><strong>Pszenny</strong> jest jaśniejszy, bardziej sprężysty i często ma większe pęcherzyki. Po dokarmieniu może rosnąć wolniej, ale jego wierzch wyraźnie się zaokrągla.</p>
           <p>Do przygotowania konkretnego levainu użyj zakwasu, który masz aktywny. Kalkulator chleba rozpisze potem dokładnie, ile tego zakwasu, mąki i wody odważyć.</p>
+        </div>
+      </section>
+      <section class="guide" id="prefermentTab">
+        <div class="guide-card">
+          <h2>Jak zrobić levain?</h2>
+          <p>Levain to zaczyn przygotowany z aktywnego zakwasu, mąki i wody. Nie powstaje sam z mąki i wody w kilka godzin — potrzebuje odrobiny działającego zakwasu bazowego.</p>
+          <h3>Prosty levain pszenny 100%</h3>
+          <ol><li>Odważ 25 g aktywnego zakwasu.</li><li>Dodaj 100 g mąki pszennej i 100 g wody.</li><li>Wymieszaj i zostaw w temperaturze pokojowej.</li><li>Użyj, gdy wyraźnie urośnie, ma pęcherzyki i świeży, lekko kwaskowy zapach.</li></ol>
+          <h3>Levain mieszany</h3>
+          <p>Możesz użyć jednocześnie zakwasu pszennego i żytniego, a także mieszać mąki. W przepisie podajemy osobno zakwas, mąkę i wodę — nic nie dzieje się „magicznie” i żadnego składnika nie należy pomijać.</p>
+        </div>
+        <div class="guide-card">
+          <h2>Jak zrobić poolish?</h2>
+          <p>Poolish to płynny zaczyn drożdżowy. Przygotuj go zwykle z równych wag mąki i wody oraz małej ilości drożdży.</p>
+          <ol><li>Wymieszaj mąkę i wodę w proporcji 1:1.</li><li>Dodaj drożdże zgodnie z tabelą składników.</li><li>Przykryj luźno i zostaw na 8–16 godzin.</li><li>Poolish jest gotowy, gdy jest spieniony i pełen pęcherzyków, ale jeszcze nie całkowicie opadł.</li></ol>
+        </div>
+        <div class="guide-card">
+          <h2>Jak zrobić bigę?</h2>
+          <p>Biga to sztywny zaczyn drożdżowy. Ma mniej wody niż poolish, dlatego po wymieszaniu przypomina kruszoną, zwartą masę.</p>
+          <ol><li>Wymieszaj mąkę z wodą w proporcji podanej w przepisie.</li><li>Dodaj drożdże zgodnie z tabelą składników.</li><li>Nie wyrabiaj do gładkości — wystarczy połączyć składniki.</li><li>Zostaw na 12–18 godzin. Biga jest gotowa, gdy urosła i ma włóknistą, porwaną strukturę.</li></ol>
         </div>
       </section>
       <div id="calculatorTab" class="active">
@@ -1026,7 +1047,7 @@
     document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => {
       document.querySelectorAll("[data-tab]").forEach(item => item.classList.toggle("active", item === button));
       document.querySelectorAll(".guide, #calculatorTab").forEach(view => view.classList.toggle("active", view.id === button.dataset.tab));
-      layoutPanel.classList.toggle("starter-mode", button.dataset.tab === "starterTab");
+      layoutPanel.classList.toggle("starter-mode", button.dataset.tab !== "calculatorTab");
     }));
   </script>
 </body>
