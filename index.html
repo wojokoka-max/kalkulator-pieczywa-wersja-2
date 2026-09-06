@@ -423,6 +423,19 @@
           <p>Biga to sztywny zaczyn drożdżowy. Ma mniej wody niż poolish, dlatego po wymieszaniu przypomina kruszoną, zwartą masę.</p>
           <ol><li>Wymieszaj mąkę z wodą w proporcji podanej w przepisie.</li><li>Dodaj drożdże zgodnie z tabelą składników.</li><li>Nie wyrabiaj do gładkości — wystarczy połączyć składniki.</li><li>Zostaw na 12–18 godzin. Biga jest gotowa, gdy urosła i ma włóknistą, porwaną strukturę.</li></ol>
         </div>
+        <div class="guide-card">
+          <h2>Czy mogę zmienić proporcje?</h2>
+          <label>Wybierz pytanie
+            <select id="levainQuestion">
+              <option value="moreStarter">Czy mogę dodać więcej zakwasu?</option>
+              <option value="moreRye">Czy mogę dodać więcej zakwasu żytniego?</option>
+              <option value="moreFlour">Czy mogę dodać więcej mąki?</option>
+              <option value="moreWater">Czy mogę dodać więcej wody?</option>
+              <option value="longer">Czy mogę zostawić levain na dłużej?</option>
+            </select>
+          </label>
+          <p class="callout" id="levainAnswer"></p>
+        </div>
       </section>
       <div id="calculatorTab" class="active">
       <form class="panel inputs" id="calculator">
@@ -1049,6 +1062,18 @@
       document.querySelectorAll(".guide, #calculatorTab").forEach(view => view.classList.toggle("active", view.id === button.dataset.tab));
       layoutPanel.classList.toggle("starter-mode", button.dataset.tab !== "calculatorTab");
     }));
+    const levainAnswers = {
+      moreStarter: "Tak, ale levain dojrzeje szybciej. Jeśli dodasz dużo więcej, skróć czas i obserwuj wzrost zamiast trzymać się zegara.",
+      moreRye: "Tak. Większy udział żytniego zakwasu przyspieszy fermentację i da wyraźniejszy aromat. Przy zmianie dodaj mniej zakwasu pszennego, jeśli chcesz zachować tę samą masę całości.",
+      moreFlour: "Tak, ale dołóż również wodę, jeśli chcesz zachować hydrację 100%. Każde 10 g mąki oznacza około 10 g wody.",
+      moreWater: "Tak, ale levain stanie się rzadszy i może dojrzeć szybciej. Przy hydracji wyższej niż 100% mieszaj go dokładnie i pilnuj, żeby nie opadł.",
+      longer: "Tak, lecz po osiągnięciu szczytu levain zacznie opadać i słabnąć. Jeśli potrzebujesz więcej czasu, użyj mniej zakwasu bazowego albo przenieś levain do chłodniejszego miejsca."
+    };
+    const levainQuestion = document.getElementById("levainQuestion");
+    const levainAnswer = document.getElementById("levainAnswer");
+    const updateLevainAnswer = () => { levainAnswer.textContent = levainAnswers[levainQuestion.value]; };
+    levainQuestion.addEventListener("change", updateLevainAnswer);
+    updateLevainAnswer();
   </script>
 </body>
 </html>
