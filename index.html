@@ -350,6 +350,22 @@
     }
 
     @media (max-width: 540px) {
+      main { width: calc(100% - 24px); padding-top: 14px; }
+      h1 { font-size: 2rem; }
+      .lead { font-size: .92rem; line-height: 1.4; }
+      .tabs, .workflow-nav { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-bottom: 3px; }
+      .tabs::-webkit-scrollbar, .workflow-nav::-webkit-scrollbar { display: none; }
+      .tabs { gap: 6px; margin-bottom: 12px; }
+      .tab { flex: 0 0 auto; white-space: nowrap; padding: 8px 10px; font-size: .82rem; }
+      .workflow-nav { gap: 6px; margin-bottom: 12px; }
+      .workflow-nav button { flex: 0 0 auto; padding: 7px 10px; font-size: .82rem; }
+      .workflow-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+      .workflow-controls span { display: none; }
+      .workflow-controls button { min-height: 42px; padding: 8px 9px; font-size: .82rem; }
+      .inputs, .results { padding: 14px; }
+      .planning-card { padding: 12px; }
+      .method-choice { grid-template-columns: 1fr; }
+      .method-choice button { min-height: 48px; padding: 8px 10px; }
       .grid-2, .summary { grid-template-columns: 1fr; }
       .preferment-row,
       .preferment-head { grid-template-columns: 1fr; }
