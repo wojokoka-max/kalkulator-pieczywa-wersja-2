@@ -65,7 +65,7 @@
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 14px;
       box-shadow: var(--shadow);
     }
 
@@ -76,9 +76,9 @@
     }
 
     .results {
-      padding: 18px;
+      padding: 24px;
       display: grid;
-      gap: 16px;
+      gap: 22px;
     }
 
     fieldset {
@@ -310,6 +310,14 @@
       border-radius: 6px;
     }
 
+    .planning-card { margin-top: 4px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fffaf2; }
+    .planning-card h3 { margin: 0 0 5px; }
+    .planning-card p { margin: 0 0 12px; }
+    .method-choice { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .method-choice button { min-height: 62px; padding: 10px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--ink); text-align: left; cursor: pointer; }
+    .method-choice button:hover, .method-choice button.active { border-color: var(--accent); background: var(--accent-2); }
+    .method-choice small { color: var(--muted); }
+
     .photo-guide {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -445,6 +453,15 @@
               </label>
             </div>
           </details>
+          <div class="planning-card">
+            <h3>Wybierz sposób pieczenia</h3>
+            <p class="calculated-note small">To tylko decyzja organizacyjna. Dokładną temperaturę i czas zobaczysz na końcu.</p>
+            <div class="method-choice" aria-label="Wybierz sposób pieczenia">
+              <button type="button" data-bake-method="noSteam"><strong>Bez pary</strong><br><small>misa z wodą</small></button>
+              <button type="button" data-bake-method="standard"><strong>Z funkcją pary</strong><br><small>blacha, kamień lub stal</small></button>
+              <button type="button" data-bake-method="castIron"><strong>Naczynie żeliwne</strong><br><small>z pokrywką</small></button>
+            </div>
+          </div>
           <div class="calculated-note">
             <strong>Hydratację dobierze kalkulator.</strong>
             Uwzględni rodzaj wypieku oraz chłonność wybranej mieszanki mąk.
@@ -748,9 +765,10 @@
       const foldAdvice = mix.ryeShare >= 0.5
         ? "1 delikatne złożenie, potem obserwuj wzrost; żytnie ciasto łatwo odgazować"
         : "złóż po 30 i 60 min, jeśli ciasto jest luźne; później zostaw je w spokoju";
-      const rows = [
-        ["Faza 1: przygotowanie zaczynu", product.enrich > 20 ? "zgodnie z aktywnością zakwasu" : "4-12 h, zależnie od karmienia i temperatury", "zaczyn wyrośnięty, aktywny, bez ostrego zapachu rozkładu"]
-      ];
+      const rows = [];
+      if (prefermentMix(number("flour")).active.length) {
+        rows.push(["Faza 1: przygotowanie zaczynu", product.enrich > 20 ? "zgodnie z aktywnością zakwasu" : "4-12 h, zależnie od karmienia i temperatury", "zaczyn wyrośnięty, aktywny, bez ostrego zapachu rozkładu"]);
+      }
       if (autolyse) {
         rows.push(["Faza 2: autoliza", enrichment > 0 ? "10-20 min" : "20-45 min", "mąka połączona z większością wody; ciasto wyraźnie mniej szorstkie"]);
       }
@@ -758,8 +776,7 @@
         [autolyse ? "Faza 3: mieszanie ciasta" : "Faza 2: mieszanie ciasta", enrichment > 15 ? "do połączenia składników, bez przegrzewania" : "do uzyskania jednolitego ciasta", "sól, zaczyn i pozostała woda są równomiernie rozprowadzone"],
         [autolyse ? "Faza 4: fermentacja wstępna" : "Faza 3: fermentacja wstępna", `${hours(bulk)} przy ok. ${room}°C`, product.note],
         [autolyse ? "Faza 5: składanie i odpoczynek" : "Faza 4: składanie i odpoczynek", "zwykle 1-2 złożenia w pierwszej połowie fermentacji", foldAdvice],
-        [autolyse ? "Faza 6: formowanie i garowanie" : "Faza 5: formowanie i garowanie", `${hours(proof)} przy ok. ${room}°C`, "ciasto sprężyste; po naciśnięciu powoli wraca, a bochenek zwiększa objętość"],
-        [autolyse ? "Faza 7: pieczenie" : "Faza 6: pieczenie", product.bake, "dopiekaj do mocnego zapachu skórki i stabilnego spodu"]
+        [autolyse ? "Faza 6: formowanie i garowanie" : "Faza 5: formowanie i garowanie", `${hours(proof)} przy ok. ${room}°C`, "ciasto sprężyste; po naciśnięciu powoli wraca, a bochenek zwiększa objętość"]
       );
       return rows;
     }
@@ -825,16 +842,13 @@
         : "";
       const selectedMethod = el.bakeMethod.value === "castIron" ? "naczynie żeliwne z pokrywką" : el.bakeMethod.value === "noSteam" ? "blacha, kamień lub stal — bez funkcji pary" : "blacha, kamień lub stal — z funkcją pary";
       const bakeInstruction = castIron ? "20 min 250°C pod przykryciem, potem 25 min 220°C bez przykrycia" : product.bake;
-      const bakeChoices = `<div class="bake-choices" aria-label="Wybierz sposób pieczenia"><button type="button" data-bake-method="noSteam" class="${el.bakeMethod.value === "noSteam" ? "active" : ""}"><strong>Bez pary</strong><br><small>misa z wodą</small></button><button type="button" data-bake-method="standard" class="${el.bakeMethod.value === "standard" ? "active" : ""}"><strong>Z funkcją pary</strong><br><small>blacha, kamień lub stal</small></button><button type="button" data-bake-method="castIron" class="${el.bakeMethod.value === "castIron" ? "active" : ""}"><strong>Naczynie żeliwne</strong><br><small>z pokrywką</small></button></div>`;
       if (shaped) return `<div class="section"><h3>Przed pieczeniem</h3><p><strong>Ciasto:</strong> powinno być napowietrzone, miękkie i wyraźnie rozciągliwe. Focaccię delikatnie rozciągnij na blasze, nie odgazowuj jej wałkiem. Pizzę rozciągnij palcami od środka do brzegów.</p><p><strong>Kiedy piec:</strong> gdy ciasto ma widoczne pęcherzyki i reaguje sprężyście na dotyk. Focaccię możesz posmarować oliwą i zrobić palcami dołki; pizzy nie nacinaj.</p></div>`;
       if (product.label.includes("Bagietki")) return `<div class="section"><h3>Przed włożeniem do pieca</h3><p class="callout"><strong>Temperatura i czas pieczenia:</strong><br>${product.bake}</p><p><strong>Jak ma wyglądać ciasto:</strong> bagietka powinna być wyraźnie napowietrzona, sprężysta i lekka. Po delikatnym naciśnięciu ślad powinien powoli wracać. Przenoś ją ostrożnie, najlepiej na papierze lub desce, żeby nie odgazować ciasta.</p><p><strong>Jak naciąć:</strong> użyj żyletki. Na każdej bagietce wykonaj <strong>3–5 długich, lekko skośnych nacięć</strong>, każde częściowo zachodzące na poprzednie. Nacinaj płytko, około <strong>0,5 cm</strong>, tuż przed włożeniem do pieca.</p><p><strong>Para:</strong> włóż bagietki do dobrze nagrzanego piekarnika. Zapewnij parę na początku pieczenia, a po około 10 minutach wypuść ją, aby skórka się zrumieniła i stała chrupiąca.</p><div class="photo-guide"><figure><img src="assets/ciasto-na-blacie.jpg" alt="Ciasto przygotowane do formowania"><figcaption>Formuj delikatnie, zachowując pęcherzyki.</figcaption></figure><figure><img src="assets/gotowy-chleb-1.jpg" alt="Nacięty i upieczony chleb"><figcaption>Nacięcia powinny otworzyć się w piecu.</figcaption></figure></div></div>`;
-      return `<div class="section"><h3>Przed włożeniem do pieca</h3>${bakeChoices}<p><strong>Wybrana metoda:</strong> ${selectedMethod}</p>${castIron || noSteam || `<p class="callout"><strong>Temperatura i czas pieczenia:</strong><br>${bakeInstruction}</p>`}<p><strong>Jak ma wyglądać ciasto:</strong> bochenek powinien być napuszony, mieć wyraźnie większą objętość, gładką lub lekko napiętą powierzchnię i sprężystość. Naciśnij delikatnie palcem: ślad powinien powoli wracać, ale nie znikać natychmiast.</p><p><strong>Kiedy piec:</strong> jeśli ślad wraca od razu, daj ciastu jeszcze czas. Jeśli zapada się i nie wraca, jest prawdopodobnie przefermentowane — piecz od razu i obchodź się z nim bardzo delikatnie.</p><p><strong>Jak naciąć:</strong> użyj żyletki albo bardzo ostrego, cienkiego noża. Zrób jedno długie nacięcie na około <strong>0,5-1 cm głębokości</strong>, pod kątem około 30-45°, prowadząc ostrze zdecydowanym ruchem. Przy dużym, okrągłym bochenku możesz zrobić krzyż lub cztery krótsze nacięcia. Nie piłuj powierzchni i nie dociskaj bochenka.</p>${enriched ? "<p><strong>Wyjątek:</strong> chałki, rogali i słodkich bułek zwykle się nie nacina — zaplątanie lub uformowanie jest wystarczającym przygotowaniem.</p>" : `<p><strong>Przygotuj piec wcześniej:</strong> ${castIron ? "piekarnik i naczynie żeliwne muszą być już dobrze nagrzane" : "piekarnik oraz blacha, kamień lub stal muszą być już dobrze nagrzane"}. Przełóż bochenek szybko, aby nie stracił objętości.</p>`}<div class="photo-guide"><figure><img src="assets/test-wyrosniecia.jpg" alt="Sprawdzanie wyrośnięcia ciasta palcem"><figcaption>Test palca: obserwuj, jak szybko ślad wraca.</figcaption></figure><figure><img src="assets/ciasto-na-blacie.jpg" alt="Uformowane ciasto na blacie"><figcaption>Ciasto przed formowaniem powinno być elastyczne i napowietrzone.</figcaption></figure><figure><img src="assets/gotowy-chleb-1.jpg" alt="Nacięty i upieczony chleb"><figcaption>Nacięcie otwiera się podczas pieczenia i kontroluje pęknięcie skórki.</figcaption></figure></div></div>`;
+      return `<div class="section"><h3>Przed włożeniem do pieca</h3><p><strong>Wybrana metoda:</strong> ${selectedMethod}</p>${castIron || noSteam || `<p class="callout"><strong>Temperatura i czas pieczenia:</strong><br>${bakeInstruction}</p>`}<p><strong>Jak ma wyglądać ciasto:</strong> bochenek powinien być napuszony, mieć wyraźnie większą objętość, gładką lub lekko napiętą powierzchnię i sprężystość. Naciśnij delikatnie palcem: ślad powinien powoli wracać, ale nie znikać natychmiast.</p><p><strong>Kiedy piec:</strong> jeśli ślad wraca od razu, daj ciastu jeszcze czas. Jeśli zapada się i nie wraca, jest prawdopodobnie przefermentowane — piecz od razu i obchodź się z nim bardzo delikatnie.</p><p><strong>Jak naciąć:</strong> użyj żyletki albo bardzo ostrego, cienkiego noża. Zrób jedno długie nacięcie na około <strong>0,5-1 cm głębokości</strong>, pod kątem około 30-45°, prowadząc ostrze zdecydowanym ruchem. Przy dużym, okrągłym bochenku możesz zrobić krzyż lub cztery krótsze nacięcia. Nie piłuj powierzchni i nie dociskaj bochenka.</p>${enriched ? "<p><strong>Wyjątek:</strong> chałki, rogali i słodkich bułek zwykle się nie nacina — zaplątanie lub uformowanie jest wystarczającym przygotowaniem.</p>" : `<p><strong>Przygotuj piec wcześniej:</strong> ${castIron ? "piekarnik i naczynie żeliwne muszą być już dobrze nagrzane" : "piekarnik oraz blacha, kamień lub stal muszą być już dobrze nagrzane"}. Przełóż bochenek szybko, aby nie stracił objętości.</p>`}<div class="photo-guide"><figure><img src="assets/test-wyrosniecia.jpg" alt="Sprawdzanie wyrośnięcia ciasta palcem"><figcaption>Test palca: obserwuj, jak szybko ślad wraca.</figcaption></figure><figure><img src="assets/ciasto-na-blacie.jpg" alt="Uformowane ciasto na blacie"><figcaption>Ciasto przed formowaniem powinno być elastyczne i napowietrzone.</figcaption></figure><figure><img src="assets/gotowy-chleb-1.jpg" alt="Nacięty i upieczony chleb"><figcaption>Nacięcie otwiera się podczas pieczenia i kontroluje pęknięcie skórki.</figcaption></figure></div></div>`;
     }
 
     function setDefaults() {
       const product = products[el.product.value];
-      el.flourPreset.value = el.product.value === "ryeMix" ? "rye" : "everyday";
-      setFlourPreset(el.flourPreset.value);
       el.doughTemp.value = product.doughTemp;
       el.prefermentPreset.value = product.enrich > 20 ? "stiffSweet" : "oneSourdough";
       setPrefermentPreset(el.prefermentPreset.value);
@@ -972,7 +986,7 @@
       calculate();
     });
     document.getElementById("useStock").addEventListener("click", useStock);
-    document.getElementById("bakeGuidance").addEventListener("click", event => {
+    document.addEventListener("click", event => {
       const button = event.target.closest("[data-bake-method]");
       if (!button) return;
       el.bakeMethod.value = button.dataset.bakeMethod;
