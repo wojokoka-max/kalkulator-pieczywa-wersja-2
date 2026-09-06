@@ -362,7 +362,7 @@
   <main>
     <header>
       <h1>Upieczmy chleb</h1>
-      <p class="lead">Podaj, co chcesz upiec i jakie masz składniki. Otrzymasz dokładną listę: ile i jakiej mąki, ile wody, soli oraz zaczynu trafia do każdej fazy. Kalkulator wykonuje matematykę, ale wyjaśnia również użyte pojęcia.</p>
+      <p class="lead">Wybierz pieczywo, składniki i sposób pieczenia. Dostaniesz prostą instrukcję krok po kroku.</p>
     </header>
 
     <div class="layout">
@@ -402,7 +402,7 @@
       </section>
       <div id="calculatorTab" class="active">
       <form class="panel inputs" id="calculator">
-      <p class="beginner-note"><strong>Nie musisz znać terminologii piekarskiej.</strong><br>Wybierz najbliższą opcję, a przy wyniku zobaczysz dokładnie, co przygotować i dlaczego. Nie musisz samodzielnie liczyć proporcji — wszystkie ilości podamy w gramach.</p>
+      <p class="beginner-note"><strong>Nie musisz znać terminologii.</strong><br>Wybierz odpowiedzi, a aplikacja poda Ci konkretne ilości i kolejność pracy.</p>
         <fieldset>
           <legend>1. Co pieczesz?</legend>
           <label>
@@ -468,7 +468,7 @@
           </div>
           <details class="advanced inventory-box">
             <summary>Nie mam dokładnie tych mąk — dobierz mieszankę z moich zapasów</summary>
-            <p class="calculated-note small">Wpisz, ile masz każdej mąki. Kalkulator wybierze dostępne mąki w rozsądnej kolejności i pokaże ich dokładne gramatury dla tego chleba.</p>
+            <p class="calculated-note small">Wpisz ilości mąk, które masz. Kalkulator dobierze z nich mieszankę.</p>
             <div class="grid-2">
               <label>Pszenna typ 750 (g)<input id="stockWhite" type="number" min="0" step="10" placeholder="np. 400"></label>
               <label>Pszenna typ 1850 / graham (g)<input id="stockWhole" type="number" min="0" step="10" placeholder="np. 300"></label>
@@ -492,7 +492,7 @@
             Co masz do dyspozycji?
             <select id="prefermentPreset"></select>
           </label>
-          <p class="calculated-note small"><strong>Jak dobierane są proporcje?</strong> Dla zwykłego chleba kalkulator zaczyna od około 20–25% mąki przeznaczonej do fermentacji w zakwasie/levainie. Pozostała mąka i woda trafiają do ciasta właściwego. Wszystkie składniki z zakwasu lub levainu są wliczone w całkowitą ilość mąki i wody — nie dodajesz ich drugi raz. „Zakwas 100%” oznacza tylko równe wagi mąki i wody, np. 50 g + 50 g. <strong>Levain mieszany</strong> może być zbudowany z mąki pszennej i żytniej; kalkulator rozpisuje dokładny podział.</p>
+          <p class="calculated-note small">Nie wiesz, co wybrać? Jeśli masz aktywny zakwas, wybierz pierwszą opcję.</p>
           <details class="advanced">
             <summary>Ustawienia dla osób, które znają zaczyny</summary>
             <div class="preferment-mix">
@@ -517,7 +517,7 @@
               </div>
             </div>
           </details>
-          <p class="calculated-note small"><strong>Czas fermentacji i temperatury dobierze kalkulator</strong> do rodzaju wypieku, zaczynu i warunków w kuchni.</p>
+          <p class="calculated-note small">Czas fermentacji dopasujemy do Twoich warunków.</p>
         </fieldset>
 
         <fieldset>
