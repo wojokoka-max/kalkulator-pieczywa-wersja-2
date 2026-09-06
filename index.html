@@ -484,8 +484,12 @@
 
         <fieldset>
           <legend>2. Czego używasz do wyrastania?</legend>
+          <div class="planning-card">
+            <h3>Wybierz, co masz teraz w kuchni</h3>
+            <p class="calculated-note small">Nie musisz znać nazw piekarskich. Wybierz opis, który pasuje do Twojej sytuacji — aplikacja poda potem dokładną instrukcję.</p>
+          </div>
           <label>
-            Wybierz najbliższą opcję
+            Co masz do dyspozycji?
             <select id="prefermentPreset"></select>
           </label>
           <p class="calculated-note small"><strong>Jak dobierane są proporcje?</strong> Dla zwykłego chleba kalkulator zaczyna od około 20–25% mąki przeznaczonej do fermentacji w zakwasie/levainie. Pozostała mąka i woda trafiają do ciasta właściwego. Wszystkie składniki z zakwasu lub levainu są wliczone w całkowitą ilość mąki i wody — nie dodajesz ich drugi raz. „Zakwas 100%” oznacza tylko równe wagi mąki i wody, np. 50 g + 50 g. <strong>Levain mieszany</strong> może być zbudowany z mąki pszennej i żytniej; kalkulator rozpisuje dokładny podział.</p>
@@ -652,14 +656,14 @@
     };
 
     const prefermentPresets = {
-      oneSourdough: { label: "mam zwykły, aktywny zakwas", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
-      levain: { label: "mam levain (aktywny zaczyn pszenny)", rows: [["levain", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
-      levainMixed: { label: "mam levain mieszany (pszenny i żytni)", rows: [["levainMixed", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
-      mixedSourdough: { label: "mieszanka: zakwas żytni + levain", rows: [["ryeSourdough", 15, 100], ["levain", 15, 100], ["none", 0, 50]] },
-      stiffSweet: { label: "łagodny sztywny zakwas do słodkich", rows: [["stiffSourdough", 18, 50], ["none", 0, 100], ["none", 0, 50]] },
-      poolish: { label: "poolish drożdżowy", rows: [["poolish", 30, 100], ["none", 0, 100], ["none", 0, 50]] },
-      biga: { label: "biga drożdżowa", rows: [["biga", 30, 50], ["none", 0, 100], ["none", 0, 50]] },
-      none: { label: "bez zaczynu", rows: [["none", 0, 100], ["none", 0, 100], ["none", 0, 50]] },
+      oneSourdough: { label: "Mam aktywny zakwas i chcę użyć go do chleba", rows: [["sourdough100", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      levain: { label: "Mam zakwas i chcę przygotować z niego łagodny zaczyn pszenny (levain)", rows: [["levain", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      levainMixed: { label: "Mam zakwas pszenny i żytni — chcę zrobić zaczyn mieszany (levain)", rows: [["levainMixed", 25, 100], ["none", 0, 100], ["none", 0, 50]] },
+      mixedSourdough: { label: "Mam dwa zakwasy: pszenny i żytni", rows: [["ryeSourdough", 15, 100], ["levain", 15, 100], ["none", 0, 50]] },
+      stiffSweet: { label: "Mam sztywny zakwas do słodkiego ciasta", rows: [["stiffSourdough", 18, 50], ["none", 0, 100], ["none", 0, 50]] },
+      poolish: { label: "Mam drożdże i chcę zrobić płynny zaczyn (poolish)", rows: [["poolish", 30, 100], ["none", 0, 100], ["none", 0, 50]] },
+      biga: { label: "Mam drożdże i chcę zrobić sztywny zaczyn (biga)", rows: [["biga", 30, 50], ["none", 0, 100], ["none", 0, 50]] },
+      none: { label: "Nie chcę używać zakwasu ani zaczynu", rows: [["none", 0, 100], ["none", 0, 100], ["none", 0, 50]] },
       custom: { label: "własne zaczyny", rows: null }
     };
 
